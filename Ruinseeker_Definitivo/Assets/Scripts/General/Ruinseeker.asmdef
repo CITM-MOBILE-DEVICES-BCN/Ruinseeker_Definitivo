@@ -1,0 +1,16 @@
+{
+    "name": "Ruinseeker",
+    "rootNamespace": "Ruinseeker",
+    "references": [
+        "GUID:bcefd30ed440bfb4e8220067e1709014"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
