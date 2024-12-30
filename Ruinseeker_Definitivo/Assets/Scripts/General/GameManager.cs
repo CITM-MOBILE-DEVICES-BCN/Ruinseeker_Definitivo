@@ -22,11 +22,6 @@ namespace Ruinseeker
             }
         }
 
-        private void Start()
-        {
-           
-        }
-
         public void LoadSceneRequest(string sceneName)
         {
             navigationController.LoadScene(sceneName);
@@ -40,6 +35,18 @@ namespace Ruinseeker
         public void DestroyScreenRequest(string screenName)
         {
             navigationController.DestroyScreen(screenName);
+        }
+
+        public void PauseGame()
+        {
+            Time.timeScale = 0;
+            LoadScreenRequest("PauseCanvas");
+        }
+
+        public void ResumeGame()
+        {
+            Time.timeScale = 1;
+            DestroyScreenRequest("PauseCanvas");
         }
     }
 }

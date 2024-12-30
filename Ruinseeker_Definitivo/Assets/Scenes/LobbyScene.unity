@@ -1399,6 +1399,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1676014866}
   - component: {fileID: 1676014867}
+  - component: {fileID: 1676014868}
   m_Layer: 5
   m_Name: AllMinigames
   m_TagString: Untagged
@@ -1453,6 +1454,22 @@ MonoBehaviour:
   m_Spacing: {x: 50, y: 50}
   m_Constraint: 1
   m_ConstraintCount: 2
+--- !u!114 &1676014868
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1676014865}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 75d6ce6afc5d4cd4abeff8c1a282d8f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ruinseekerButton: {fileID: 1232270742}
+  waltersWalkButton: {fileID: 651071647}
+  kyotoNinjaButton: {fileID: 1399548341}
+  robotinButton: {fileID: 378593297}
 --- !u!1 &1818684969
 GameObject:
   m_ObjectHideFlags: 0
