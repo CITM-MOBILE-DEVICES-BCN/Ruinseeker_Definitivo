@@ -2,7 +2,9 @@
     "name": "Ruinseeker",
     "rootNamespace": "Ruinseeker",
     "references": [
-        "GUID:bcefd30ed440bfb4e8220067e1709014"
+        "GUID:bcefd30ed440bfb4e8220067e1709014",
+        "GUID:09dcc9c0126b6b34ab2a877b8f2277f5",
+        "GUID:75469ad4d38634e559750d17036d5f7c"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

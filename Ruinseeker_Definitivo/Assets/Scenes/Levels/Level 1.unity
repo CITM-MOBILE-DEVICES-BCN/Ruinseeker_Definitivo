@@ -200,7 +200,7 @@ Transform:
   m_GameObject: {fileID: 92829636}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
-  m_LocalPosition: {x: -374, y: 152, z: 588}
+  m_LocalPosition: {x: -207, y: 126, z: 588}
   m_LocalScale: {x: 853.55164, y: 73.97103, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1114,8 +1114,8 @@ Transform:
   m_GameObject: {fileID: 1463865587}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -281, y: -227, z: 588}
-  m_LocalScale: {x: 37.525776, y: 37.525776, z: 1.3092512}
+  m_LocalPosition: {x: -3.5997, y: -256.1995, z: 588}
+  m_LocalScale: {x: 20.327713, y: 20.327713, z: 0.70922136}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -1132,11 +1132,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e8cf69a51773e84cb990c19bbec6f25, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  jumpForce: 260
+  jumpForce: 200
   moveSpeed: 200
+  dashSpeed: 400
   wallJumpForce: 240
   wallJumpForceX: 80
   wallSlideSpeed: 50
+  hasJumped: 0
+  isTouchingWall: 0
+  isGrounded: 0
+  isDashing: 0
 --- !u!61 &1463865594
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1287,8 +1292,8 @@ Transform:
   m_GameObject: {fileID: 1534293376}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -5, y: -302, z: 588}
-  m_LocalScale: {x: 853.55164, y: 73.97103, z: 1}
+  m_LocalPosition: {x: -5, y: -325.4583, z: 588}
+  m_LocalScale: {x: 853.55164, y: 68.25307, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -1325,7 +1330,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0.046079397}
+  m_Offset: {x: 0, y: 0.0042018294}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -1336,8 +1341,103 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 1.0921587}
+  m_Size: {x: 1, y: 1.0084035}
   m_EdgeRadius: 0
+--- !u!1 &1626013516
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1626013518}
+  - component: {fileID: 1626013517}
+  m_Layer: 0
+  m_Name: SwipeDetector
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1626013517
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1626013516}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c8f435e09262fc74dbca245bfc5a2846, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  position:
+    m_Name: Position
+    m_Type: 0
+    m_ExpectedControlType: Vector2
+    m_Id: d65031e8-5b95-4dda-85a2-e3f670703cd6
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings:
+    - m_Name: 
+      m_Id: 9fee6223-4e6e-491d-a176-3e23ed3730e6
+      m_Path: <Touchscreen>/position
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Position
+      m_Flags: 0
+    - m_Name: 
+      m_Id: a2424c11-74a5-4cb1-b4bc-94849fbcba8b
+      m_Path: <Mouse>/position
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Position
+      m_Flags: 0
+    m_Flags: 0
+  press:
+    m_Name: Press
+    m_Type: 1
+    m_ExpectedControlType: Button
+    m_Id: fce93cea-9434-4786-85d5-18cc2c5bded1
+    m_Processors: 
+    m_Interactions: Press
+    m_SingletonActionBindings:
+    - m_Name: 
+      m_Id: a3750ab7-179e-4b82-b405-ec6563d348bc
+      m_Path: <Touchscreen>/Press
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Press
+      m_Flags: 0
+    - m_Name: 
+      m_Id: 70ba5d23-d184-40e9-8630-a0ae85f54cf4
+      m_Path: <Mouse>/leftButton
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Press
+      m_Flags: 0
+    m_Flags: 0
+  swipeResistance: 100
+--- !u!4 &1626013518
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1626013516}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 56.51593, y: -75.65794, z: -6.457774}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1649035444
 GameObject:
   m_ObjectHideFlags: 0
@@ -1498,7 +1598,7 @@ Transform:
   m_GameObject: {fileID: 1935125935}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
-  m_LocalPosition: {x: 379, y: 154, z: 588}
+  m_LocalPosition: {x: 212, y: 124, z: 588}
   m_LocalScale: {x: 853.55164, y: 73.97103, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1637,3 +1737,4 @@ SceneRoots:
   - {fileID: 1935125939}
   - {fileID: 92829640}
   - {fileID: 1463865592}
+  - {fileID: 1626013518}
