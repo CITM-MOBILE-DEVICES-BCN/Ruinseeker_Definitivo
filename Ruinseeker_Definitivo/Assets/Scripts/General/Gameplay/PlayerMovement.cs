@@ -22,8 +22,11 @@ namespace Ruinseeker
         [SerializeField] private bool isTouchingWall = false;
         [SerializeField] private bool isGrounded = false;
         [SerializeField] private bool isDashing = false;
+        [SerializeField] private bool hasDashed = false;
         private float velX;
         private float velY;
+
+       
 
         enum DashDirection
         {
@@ -55,6 +58,8 @@ namespace Ruinseeker
         // Update is called once per frame
         void Update()
         {
+            
+
             if (Input.GetKeyDown(KeyCode.Space) && !hasJumped)
             {
                 if (isTouchingWall)
@@ -75,6 +80,8 @@ namespace Ruinseeker
             {
                 DashMovement();
             }
+
+            rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y);
         }
 
         void Jump()
@@ -85,8 +92,11 @@ namespace Ruinseeker
 
         void WallJump()
         {
+            moveDirection.x = -moveDirection.x;
+            
             // Aplicar fuerza en la dirección opuesta a la pared y hacia arriba
-            rb.velocity = new Vector2(wallJumpForceX * (transform.localScale.x > 0 ? 1 : -1), jumpForce);
+            rb.velocity = new Vector2(wallJumpForceX * (-moveDirection.x), jumpForce);
+            
             hasJumped = true;
             isTouchingWall = false; // Resetear el estado de contacto con la pared
         }
@@ -100,10 +110,11 @@ namespace Ruinseeker
         {
             Debug.Log("Dash: " + direction);
 
-            if (hasJumped)
+            if (hasJumped && !hasDashed)
             {
                 dashDirection = direction;
                 isDashing = true;
+                hasDashed = true;
                 velX = rb.velocity.x;
                 velY = rb.velocity.y;
                 rb.velocity = Vector2.zero;
@@ -145,7 +156,7 @@ namespace Ruinseeker
                     dashDir = DashDirection.DownLeft;
                 }
 
-                    StartCoroutine(WaitTimeForDash(0.3f));
+                StartCoroutine(WaitTimeForDash(0.2f));
             }
         }
 
@@ -158,31 +169,49 @@ namespace Ruinseeker
         {
             if (collision.gameObject.CompareTag("Wall"))
             {
-                moveDirection = moveDirection == Vector3.right ? Vector3.left : Vector3.right;
+               
                 if (!isGrounded)
                 {
                     isTouchingWall = true;
                     hasJumped = false;
+                    hasDashed = false;
                     rb.velocity = new Vector2(0, -wallSlideSpeed); // Deslizarse lentamente hacia abajo
                 }
+                else
+                {
+                    moveDirection = moveDirection == Vector3.right ? Vector3.left : Vector3.right;
+                }
+                if(isDashing)
+                {
+                    isDashing = false;
+                }
             }
-            else if (collision.gameObject.CompareTag("Ground"))
+            
+            if (collision.gameObject.CompareTag("Ground"))
             {
                 isGrounded = true;
+                if(isTouchingWall)
+                {
+                    moveDirection.x = -moveDirection.x;
+                }
+                isTouchingWall = false;
                 // Restaurar el estado original del personaje
                 transform.position = new Vector3(transform.position.x, originalPosition.y, transform.position.z);
                 transform.rotation = originalRotation;
                 rb.velocity = Vector3.zero;
                 hasJumped = false; // Resetear el estado de salto
+                hasDashed = false; // Resetear el estado de dash
             }
         }
 
         void OnCollisionStay2D(Collision2D collision)
         {
-            if (collision.gameObject.CompareTag("Wall") && !isGrounded)
+            if (collision.gameObject.CompareTag("Wall") && !isGrounded && isTouchingWall)
             {
                 rb.velocity = new Vector2(0, -wallSlideSpeed); // Deslizarse lentamente hacia abajo
             }
+
+            
         }
 
         void OnCollisionExit2D(Collision2D collision)
@@ -191,7 +220,8 @@ namespace Ruinseeker
             {
                 isTouchingWall = false;
             }
-            else if (collision.gameObject.CompareTag("Ground"))
+            
+            if (collision.gameObject.CompareTag("Ground"))
             {
                 isGrounded = false;
             }
@@ -200,35 +230,40 @@ namespace Ruinseeker
         IEnumerator WaitTimeForDash(float seconds)
         {
             yield return new WaitForSeconds(seconds);
-            isDashing = false;
-            switch(dashDir)
-            {
-                case DashDirection.Left:
-                    rb.velocity = new Vector2(velX, 0);
-                    break;
-                case DashDirection.Right:
-                    rb.velocity = new Vector2(velX, 0);
-                    break;
-                case DashDirection.Up:
-                    rb.velocity = new Vector2(velX, 10);
-                    break;
-                case DashDirection.Down:
-                    rb.velocity = new Vector2(velX, 10);
-                    break;
-                case DashDirection.UpRight:
-                    rb.velocity = new Vector2(velX, 10);
-                    break;
-                case DashDirection.UpLeft:
-                    rb.velocity = new Vector2(velX, 10);
-                    break;
-                case DashDirection.DownRight:
-                    rb.velocity = new Vector2(velX, 10);
-                    break;
-                case DashDirection.DownLeft:
-                    rb.velocity = new Vector2(velX, 10);
-                    break;
-            }
             
+            if(!isDashing)
+            {
+                switch (dashDir)
+                {
+                    case DashDirection.Left:
+                        rb.velocity = new Vector2(velX, 0);
+                        break;
+                    case DashDirection.Right:
+                        rb.velocity = new Vector2(velX, 0);
+                        break;
+                    case DashDirection.Up:
+                        rb.velocity = new Vector2(velX, 25);
+                        break;
+                    case DashDirection.Down:
+                        rb.velocity = new Vector2(velX, 25);
+                        break;
+                    case DashDirection.UpRight:
+                        rb.velocity = new Vector2(velX, 25);
+                        break;
+                    case DashDirection.UpLeft:
+                        rb.velocity = new Vector2(velX, 25);
+                        break;
+                    case DashDirection.DownRight:
+                        rb.velocity = new Vector2(velX, 25);
+                        break;
+                    case DashDirection.DownLeft:
+                        rb.velocity = new Vector2(velX, 25);
+                        break;
+                }
+            }
+       
+            isDashing = false;
+
 
         }
     }
