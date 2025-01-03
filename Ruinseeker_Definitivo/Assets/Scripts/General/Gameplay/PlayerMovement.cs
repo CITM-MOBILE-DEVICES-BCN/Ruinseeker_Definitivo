@@ -40,13 +40,14 @@ namespace Ruinseeker
 
         private void Awake()
         {
-            SwipeDetection.instance.swipePerformed += context => { DashActivation(context); };
+            
         }
 
         // Start is called before the first frame update
         void Start()
         {
             rb = GetComponent<Rigidbody2D>();
+            SwipeDetection.instance.swipePerformed += context => { DashActivation(context); };
             originalPosition = transform.position;
             originalRotation = transform.rotation;
         }
