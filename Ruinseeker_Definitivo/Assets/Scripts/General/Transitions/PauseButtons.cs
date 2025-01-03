@@ -13,11 +13,11 @@ namespace Ruinseeker
 
         private void Awake()
         {
-            resumeButton.onClick.AddListener(() => GameManager.instance.ResumeGame());
-            settingsButton.onClick.AddListener(() => GameManager.instance.DestroyScreenRequest("PauseCanvas"));
-            settingsButton.onClick.AddListener(() => GameManager.instance.LoadScreenRequest("SettingsCanvas"));
-            exitButton.onClick.AddListener(() => GameManager.instance.DestroyScreenRequest("PauseCanvas"));
-            exitButton.onClick.AddListener(() => GameManager.instance.LoadSceneRequest("LevelSelectorScene"));
+            resumeButton.onClick.AddListener(() => GameManager.Instance.ResumeGame());
+            settingsButton.onClick.AddListener(() => GameManager.Instance.DestroyScreenRequest("PauseCanvas"));
+            settingsButton.onClick.AddListener(() => GameManager.Instance.LoadScreenRequest("SettingsCanvas"));
+            exitButton.onClick.AddListener(() => GameManager.Instance.DestroyScreenRequest("PauseCanvas"));
+            exitButton.onClick.AddListener(() => GameManager.Instance.LoadSceneRequest("LevelSelectorScene"));
             
         }
     }

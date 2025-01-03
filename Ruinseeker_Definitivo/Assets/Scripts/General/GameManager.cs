@@ -8,18 +8,29 @@ namespace Ruinseeker
 {
     public class GameManager : MonoBehaviour
     {
-        public static GameManager instance;
+        public static GameManager Instance;
         public GameObject canvasForInstantiations;
         public NavigationController navigationController;
-        
+
+        private SaveSystem saveSystem;
+
+        public Vector2 checkpointPosition;
+
 
         private void Awake()
         {
-            if (instance == null)
+            if (Instance == null)
             {
-                instance = this;
+                Instance = this;
                 DontDestroyOnLoad(this.gameObject);
             }
+            saveSystem = new SaveSystem();
+
+        }
+
+        private void Start()
+        {
+            SaveData saveData = saveSystem.Load();
         }
 
         public void LoadSceneRequest(string sceneName)
@@ -47,6 +58,19 @@ namespace Ruinseeker
         {
             Time.timeScale = 1;
             DestroyScreenRequest("PauseCanvas");
+        }
+
+
+        public void UpdateCheckpointPosition(Vector2 pos)
+        {
+            checkpointPosition = pos;
+
+            SaveData saveData = new SaveData()
+            {
+                lastCheckpointPosition = checkpointPosition
+            };
+
+            saveSystem.Save(saveData);
         }
     }
 }

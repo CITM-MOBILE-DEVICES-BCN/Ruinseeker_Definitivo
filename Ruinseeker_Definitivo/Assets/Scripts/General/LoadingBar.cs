@@ -36,7 +36,7 @@ namespace Ruinseeker
             yield return new WaitForSeconds(1);
             loadingValue = 1;
             loadingBar.value = loadingValue;
-            GameManager.instance.LoadSceneRequest("LobbyScene");
+            GameManager.Instance.LoadSceneRequest("LobbyScene");
         }
     }
 }

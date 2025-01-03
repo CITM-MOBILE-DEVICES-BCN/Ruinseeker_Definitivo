@@ -11,8 +11,8 @@ namespace Ruinseeker
 
         private void Awake()
         {
-            closeButton.onClick.AddListener(() => GameManager.instance.DestroyScreenRequest("SettingsCanvas"));
-            closeButton.onClick.AddListener(() => GameManager.instance.LoadScreenRequest("PauseCanvas"));
+            closeButton.onClick.AddListener(() => GameManager.Instance.DestroyScreenRequest("SettingsCanvas"));
+            closeButton.onClick.AddListener(() => GameManager.Instance.LoadScreenRequest("PauseCanvas"));
         }
     }
 }

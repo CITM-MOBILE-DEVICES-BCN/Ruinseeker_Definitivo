@@ -16,12 +16,12 @@ namespace Ruinseeker
 
         private void Awake()
         {
-            backButton.onClick.AddListener(() => GameManager.instance.LoadSceneRequest("LobbyScene"));
-            level1Button.onClick.AddListener(() => GameManager.instance.LoadSceneRequest("Level 1"));
-            level2Button.onClick.AddListener(() => GameManager.instance.LoadSceneRequest("Level 2"));
-            level3Button.onClick.AddListener(() => GameManager.instance.LoadSceneRequest("Level 3"));
-            level4Button.onClick.AddListener(() => GameManager.instance.LoadSceneRequest("Level 4"));
-            level5Button.onClick.AddListener(() => GameManager.instance.LoadSceneRequest("Level 5"));
+            backButton.onClick.AddListener(() => GameManager.Instance.LoadSceneRequest("LobbyScene"));
+            level1Button.onClick.AddListener(() => GameManager.Instance.LoadSceneRequest("Level 1"));
+            level2Button.onClick.AddListener(() => GameManager.Instance.LoadSceneRequest("Level 2"));
+            level3Button.onClick.AddListener(() => GameManager.Instance.LoadSceneRequest("Level 3"));
+            level4Button.onClick.AddListener(() => GameManager.Instance.LoadSceneRequest("Level 4"));
+            level5Button.onClick.AddListener(() => GameManager.Instance.LoadSceneRequest("Level 5"));
         }
     }
 }
