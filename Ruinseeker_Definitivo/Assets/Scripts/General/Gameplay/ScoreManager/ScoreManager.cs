@@ -62,7 +62,7 @@ namespace Ruinseeker
             {
                 saveData = new SaveData
                 {
-                    levelProgress = new System.Collections.Generic.List<LevelData>(),
+                    levelProgress = new List<LevelData>(),
                     totalScore = 0,
                     totalGems = 0
                 };
@@ -77,6 +77,7 @@ namespace Ruinseeker
             var levelData = saveData.levelProgress.FirstOrDefault(l => l.levelName == levelName);
             return (levelData?.stars ?? 0, 3);
         }
+
         public void AddGems(int amount)
         {
             currentGems += amount;

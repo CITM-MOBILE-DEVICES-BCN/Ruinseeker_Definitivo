@@ -22,12 +22,12 @@ namespace Ruinseeker
         {
             if (collision.CompareTag("Player"))
             {
-                if (ScoreManager.Instance.CurrentGems >= itemConfig.price)
-                {
+                //if (ScoreManager.Instance.CurrentGems >= itemConfig.price)
+                //{
                     ScoreManager.Instance.AddGems(-itemConfig.price);
                     collision.GetComponent<Inventory>().AddItemToInventory(itemConfig);
                     OnCollect();
-                }
+                //}
             }
         }
     }

@@ -200,7 +200,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 108.7, y: -240.71336, z: 568.81586}
-  m_LocalScale: {x: 100, y: 100, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1391830780464292036}
@@ -270,7 +270,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c2a8ca7e01d6be4c86a2b9e677507bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemConfig: {fileID: 11400000, guid: 37c437de6242c1443bae1d619375f9ba, type: 2}
+  value: 1
+  destroyOnCollect: 1
+  itemConfig: {fileID: 11400000, guid: 74514ea1c8359304abbab3526918b5bb, type: 2}
   itemIcon: {fileID: 2162930227442918422}
   itemText: {fileID: 7570038516018405705}
 --- !u!61 &5199524621295415583
@@ -302,7 +304,7 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}

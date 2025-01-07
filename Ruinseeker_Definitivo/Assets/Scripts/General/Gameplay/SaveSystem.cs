@@ -53,7 +53,7 @@ namespace Ruinseeker
                 if (saveData.levelProgress == null)
                     saveData.levelProgress = new List<LevelData>();
 
-                return saveData; ;
+                return saveData; 
             }
             else
             {
