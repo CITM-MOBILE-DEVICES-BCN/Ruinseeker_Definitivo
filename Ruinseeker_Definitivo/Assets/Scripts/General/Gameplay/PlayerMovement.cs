@@ -18,6 +18,8 @@ namespace Ruinseeker
         private Vector2 dashDirection = Vector2.zero;
         private Vector3 originalPosition;
         private Quaternion originalRotation;
+        public bool hasBoots = false;
+        public int dashCnt = 1;
         [SerializeField] private bool hasJumped = false;
         [SerializeField] private bool isTouchingWall = false;
         [SerializeField] private bool isGrounded = false;
@@ -110,11 +112,12 @@ namespace Ruinseeker
         {
             Debug.Log("Dash: " + direction);
 
-            if (hasJumped && !hasDashed)
+             
+            if (hasJumped && dashCnt>0) //dashCcnt>0 (1)
             {
                 dashDirection = direction;
-                isDashing = true;
-                hasDashed = true;
+                isDashing = true; 
+                dashCnt--;
                 velX = rb.velocity.x;
                 velY = rb.velocity.y;
                 rb.velocity = Vector2.zero;
@@ -158,6 +161,8 @@ namespace Ruinseeker
 
                 StartCoroutine(WaitTimeForDash(0.2f));
             }
+            
+
         }
 
         private void DashMovement()
@@ -175,6 +180,14 @@ namespace Ruinseeker
                     isTouchingWall = true;
                     hasJumped = false;
                     hasDashed = false;
+                    if (hasBoots == true)
+                    {
+                        dashCnt = 2;
+                    }
+                    else
+                    {
+                        dashCnt = 1;
+                    }
                     rb.velocity = new Vector2(0, -wallSlideSpeed); // Deslizarse lentamente hacia abajo
                 }
                 else
@@ -201,6 +214,14 @@ namespace Ruinseeker
                 rb.velocity = Vector3.zero;
                 hasJumped = false; // Resetear el estado de salto
                 hasDashed = false; // Resetear el estado de dash
+                if (hasBoots == true)
+                {
+                    dashCnt = 2;
+                }
+                else
+                {
+                    dashCnt = 1;
+                }
             }
         }
 
@@ -264,6 +285,12 @@ namespace Ruinseeker
        
             isDashing = false;
 
+
+        }
+        public void JumpAfterKillingEnemy()
+        {
+            rb.velocity = new Vector2(rb.velocity.x, jumpForce / 1.5f);
+           
 
         }
     }
