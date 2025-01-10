@@ -37,15 +37,13 @@ namespace Ruinseeker
         {
             Debug.Log("Bomb used!");
 
-            // Obtén el rectángulo que representa el área visible de la cámara.
-            Camera mainCamera = Camera.main; // Obtiene la cámara principal.
+            Camera mainCamera = Camera.main;
             if (mainCamera == null)
             {
                 Debug.LogError("Main Camera not found!");
                 return;
             }
 
-            // Calcula los límites del área visible.
             Vector3 bottomLeft = mainCamera.ViewportToWorldPoint(new Vector3(0, 0, 0));
             Vector3 topRight = mainCamera.ViewportToWorldPoint(new Vector3(1, 1, 0));
             Rect visibleArea = new Rect(
@@ -55,22 +53,19 @@ namespace Ruinseeker
                 topRight.y - bottomLeft.y
             );
 
-            // Encuentra todos los enemigos en la escena.
             Enemy[] allEnemies = FindObjectsOfType<Enemy>();
             
             foreach (var enemy in allEnemies)
             {
-                // Comprueba si el enemigo está dentro del área visible.
                 if (visibleArea.Contains(enemy.transform.position))
                 {
                     Debug.Log($"Enemy {enemy.name} is in camera view and will be destroyed.");
-                    enemy.Die(); // Llama a la función `Die()` del enemigo.
+                    enemy.Die();
                 }
             }
         }
         private void ActivateBoots()
         {
-            // Encuentra el objeto del jugador
             playerMovement = FindObjectOfType<PlayerMovement>();
             if (playerMovement == null)
             {
@@ -82,15 +77,32 @@ namespace Ruinseeker
             playerMovement.hasBoots = true;
             Debug.Log("Player now has boots!");
 
-            // Inicia la corrutina para desactivar las botas después de 10 segundos
             StartCoroutine(DeactivateBootsAfterDelay(playerMovement, 10f));
         }
+        private void ActivateStar()
+        {
+            playerMovement = FindObjectOfType<PlayerMovement>();
+            if (playerMovement == null)
+            {
+                Debug.LogError("Player not found!");
+                return;
+            }
 
-        private IEnumerator DeactivateBootsAfterDelay(PlayerMovement player, float delay)
+            playerMovement.hasStar = true;
+            Debug.Log("Player now has star!");
+
+            StartCoroutine(DeactivateStarAfterDelay(playerMovement, 10f));
+        }
+        private IEnumerator DeactivateStarAfterDelay(PlayerMovement player, float delay)
         {
             yield return new WaitForSeconds(delay);
 
-            // Desactiva las botas
+            player.hasStar = false;
+            Debug.Log("Star effect expired.");
+        }
+        private IEnumerator DeactivateBootsAfterDelay(PlayerMovement player, float delay)
+        {
+            yield return new WaitForSeconds(delay);
             player.hasBoots = false;
             Debug.Log("Boots effect expired.");
         }
@@ -103,6 +115,7 @@ namespace Ruinseeker
                 {
                     case ItemConfig.ItemType.Star:
                         Debug.Log("Star");
+                        ActivateStar();
                         break;
                     case ItemConfig.ItemType.Bomb:
                         Debug.Log("Bomb");

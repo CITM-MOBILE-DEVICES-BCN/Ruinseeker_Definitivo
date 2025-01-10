@@ -34,11 +34,11 @@ namespace Ruinseeker {
                 if (angle < 45)
                 {
                     Die();
-                    //GameObject.FindGameObjectsWithTag("Player")[0].GetComponent<PlayerMovement>().JumpAfterKillingEnemy();
+                    GameObject.FindGameObjectsWithTag("Player")[0].GetComponent<PlayerMovement>().JumpAfterKillingEnemy();
                 }
                 else
                 {
-                    //collision.gameObject.GetComponent<PlayerMovement>().DeadFunction();
+                    collision.gameObject.GetComponent<PlayerMovement>().CheckDeath();
                 }
             }
         }

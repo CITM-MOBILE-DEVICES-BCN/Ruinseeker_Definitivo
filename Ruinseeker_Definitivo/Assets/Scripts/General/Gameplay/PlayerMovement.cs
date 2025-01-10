@@ -19,12 +19,14 @@ namespace Ruinseeker
         private Vector3 originalPosition;
         private Quaternion originalRotation;
         public bool hasBoots = false;
+        public bool hasStar = false;
         public int dashCnt = 1;
         [SerializeField] private bool hasJumped = false;
         [SerializeField] private bool isTouchingWall = false;
         [SerializeField] private bool isGrounded = false;
         [SerializeField] private bool isDashing = false;
         [SerializeField] private bool hasDashed = false;
+        [SerializeField] private EnemyManager enemyManager;
         private float velX;
         private float velY;
 
@@ -246,8 +248,34 @@ namespace Ruinseeker
             {
                 isGrounded = false;
             }
+
+            if (collision.gameObject.CompareTag("Dead"))
+            {
+                CheckDeath();
+
+            }
         }
 
+        public void CheckDeath()
+        {
+            if (!hasStar)
+            {
+                DeadFunction();
+            }
+            else
+            {
+              return;
+            }
+        }
+
+        public void DeadFunction()
+        {
+            rb.velocity = Vector3.zero;
+            //transform.position = GameManager.Instance.GetCheckpointPosition();
+            enemyManager.DestroyAllEnemies();
+            enemyManager.RespawnAllEnemies();
+            //invertedControlls = false;
+        }
         IEnumerator WaitTimeForDash(float seconds)
         {
             yield return new WaitForSeconds(seconds);

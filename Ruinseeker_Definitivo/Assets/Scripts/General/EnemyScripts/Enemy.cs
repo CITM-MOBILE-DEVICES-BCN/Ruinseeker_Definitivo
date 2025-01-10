@@ -43,15 +43,19 @@ namespace Ruinseeker {
             ResetEnemy();
         }
 
-        private void ResetEnemy()
+        public virtual void respawnEnemy()
+        {
+
+            gameObject.SetActive(true);
+            isActive = true;
+        }
+        public void ResetEnemy()
         {
             transform.position = initialPosition;
             transform.rotation = initialRotation;
 
             gameObject.SetActive(false);
             isActive = false;
-
-
 
         }
         protected bool IsPlayerInRange()

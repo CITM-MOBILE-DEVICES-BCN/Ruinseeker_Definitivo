@@ -71,7 +71,7 @@ namespace Ruinseeker
                 else
                 {
                     //falta la funcion de muerte del jugador
-                    //collision.gameObject.GetComponent<PlayerMovement>().DeadFunction();
+                    collision.gameObject.GetComponent<PlayerMovement>().CheckDeath();
                 }
             }
         }
