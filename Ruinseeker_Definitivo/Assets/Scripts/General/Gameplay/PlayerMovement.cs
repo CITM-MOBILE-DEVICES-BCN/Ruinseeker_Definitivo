@@ -30,7 +30,7 @@ namespace Ruinseeker
         private float velX;
         private float velY;
 
-       
+        private bool invertedControls = false;
 
         enum DashDirection
         {
@@ -107,6 +107,7 @@ namespace Ruinseeker
 
         void Move()
         {
+            float movementDirection = invertedControls ? -1 : 1;
             transform.Translate(moveDirection * moveSpeed * Time.deltaTime);
         }
 
@@ -117,8 +118,7 @@ namespace Ruinseeker
              
             if (hasJumped && dashCnt>0) //dashCcnt>0 (1)
             {
-                dashDirection = direction;
-                isDashing = true; 
+                dashDirection = invertedControls ? -direction : direction; isDashing = true; 
                 dashCnt--;
                 velX = rb.velocity.x;
                 velY = rb.velocity.y;
@@ -170,6 +170,12 @@ namespace Ruinseeker
         private void DashMovement()
         {
             transform.Translate(dashDirection * dashSpeed * Time.deltaTime);
+        }
+
+        public void InvertControls()
+        {
+            invertedControls = !invertedControls; // Cambiar el estado de controles invertidos
+            Debug.Log("Controles invertidos: " + invertedControls);
         }
 
         void OnCollisionEnter2D(Collision2D collision)
@@ -274,7 +280,7 @@ namespace Ruinseeker
             transform.position = GameManager.Instance.checkpointPosition;
             enemyManager.DestroyAllEnemies();
             enemyManager.RespawnAllEnemies();
-            //invertedControlls = false;
+            invertedControls = false;
         }
         IEnumerator WaitTimeForDash(float seconds)
         {

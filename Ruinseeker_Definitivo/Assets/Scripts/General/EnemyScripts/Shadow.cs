@@ -10,7 +10,8 @@ namespace Ruinseeker
         private Queue<Vector3> playerPositions = new Queue<Vector3>(); 
         private float positionInterval = 0.05f; 
         private float elapsedTime = 0f; 
-        private bool isRecording = false; 
+        private bool isRecording = false;
+        private bool isTrackingPlayer = false;
 
         protected override void Start()
         {
@@ -24,6 +25,10 @@ namespace Ruinseeker
 
         protected override void Update()
         {
+            if (!isTrackingPlayer) return;
+            
+
+            
             RecordPlayerMovement();
 
             Patrol();
@@ -45,9 +50,9 @@ namespace Ruinseeker
 
         public override void OnPlayerDetected()
         {
-            if (!isRecording)
+            if (!isTrackingPlayer)
             {
-                isRecording = true;
+                isTrackingPlayer = true;
             }
         }
 
@@ -77,7 +82,9 @@ namespace Ruinseeker
         {
             if (collision.gameObject.CompareTag("Player"))
             {
+                isTrackingPlayer = false;
                 collision.gameObject.GetComponent<PlayerMovement>().DeadFunction();
+                playerPositions.Clear();
             }
         }
     }
