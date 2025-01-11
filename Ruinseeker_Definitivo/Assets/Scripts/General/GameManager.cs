@@ -35,6 +35,7 @@ namespace Ruinseeker
 
         public void LoadSceneRequest(string sceneName)
         {
+            ScoreManager.Instance.ResetLevelScore();
             navigationController.LoadScene(sceneName);
         }
 
