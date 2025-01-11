@@ -271,7 +271,7 @@ namespace Ruinseeker
         public void DeadFunction()
         {
             rb.velocity = Vector3.zero;
-            //transform.position = GameManager.Instance.GetCheckpointPosition();
+            transform.position = GameManager.Instance.checkpointPosition;
             enemyManager.DestroyAllEnemies();
             enemyManager.RespawnAllEnemies();
             //invertedControlls = false;
