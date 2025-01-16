@@ -32,6 +32,9 @@ namespace Ruinseeker
 
         private bool invertedControls = false;
 
+        [SerializeField] private GameObject LeftWallTP;
+        [SerializeField] private GameObject RightWallTP;
+
         enum DashDirection
         {
             Left,
@@ -231,6 +234,8 @@ namespace Ruinseeker
                     dashCnt = 1;
                 }
             }
+
+        
         }
 
         void OnCollisionStay2D(Collision2D collision)
@@ -239,9 +244,10 @@ namespace Ruinseeker
             {
                 rb.velocity = new Vector2(0, -wallSlideSpeed); // Deslizarse lentamente hacia abajo
             }
-
+            
             
         }
+
 
         void OnCollisionExit2D(Collision2D collision)
         {
@@ -260,8 +266,26 @@ namespace Ruinseeker
                 CheckDeath();
 
             }
+      
         }
+        private void OnTriggerExit2D(Collider2D collision)
+        {
+            if (collision.gameObject.CompareTag("LeftWallTP"))
+            {
+                transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z);
+                transform.position = new Vector3(RightWallTP.transform.position.x-0.45f, transform.position.y, transform.position.z);
+                Debug.Log("LeftWallTP");
 
+            }
+            if (collision.gameObject.CompareTag("RightWallTP"))
+            {
+
+                transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z);
+                transform.position = new Vector3(LeftWallTP.transform.position.x+0.45f, transform.position.y, transform.position.z);
+                Debug.Log("RightWallTP");
+
+            }
+        }
         public void CheckDeath()
         {
             if (!hasStar)
@@ -327,5 +351,8 @@ namespace Ruinseeker
            
 
         }
+
+
     }
+
 }

@@ -8,6 +8,8 @@ TagManager:
   - Ground
   - Dead
   - Enemy
+  - LeftWallTP
+  - RightWallTP
   layers:
   - Default
   - TransparentFX
