@@ -13,9 +13,11 @@ namespace Ruinseeker {
         private Vector3 initialPosition;
         private Quaternion initialRotation;
         private bool isActive = true;
+        private SpriteRenderer spriteRenderer;
         protected virtual void Start()
         {
             player = GameObject.FindWithTag("Player").transform;
+            spriteRenderer = GetComponent<SpriteRenderer>();
             initialPosition = transform.position;
             initialRotation = transform.rotation;
         }
@@ -29,6 +31,7 @@ namespace Ruinseeker {
             if (IsPlayerInRange())
             {
                 OnPlayerDetected();
+                FlipSpriteBasedOnPlayerPosition();
             }
             else
             {
@@ -66,6 +69,22 @@ namespace Ruinseeker {
         public virtual void OnCollisionEnter2D(Collision2D collision)
         {
 
+        }
+        private void FlipSpriteBasedOnPlayerPosition()
+        {
+            if (player == null) return;
+
+            // Check if the player is to the left or right of the enemy
+            if (player.position.x < transform.position.x)
+            {
+                // Player is to the left; flip the sprite
+                spriteRenderer.flipX = true;
+            }
+            else
+            {
+                // Player is to the right; reset the flip
+                spriteRenderer.flipX = false;
+            }
         }
     }
 }

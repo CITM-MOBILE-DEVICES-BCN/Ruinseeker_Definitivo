@@ -1,6 +1,7 @@
 
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Build;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -12,14 +13,19 @@ namespace Ruinseeker
         public GameObject bulletPrefab;
         public float bulletSpeed = 5f;
         public float bulletRange = 10f;
-
         private bool isShooting;
-
+        private Animator animator;
+        private SpriteRenderer spriteRenderer;
+        private void Awake()
+        {
+             animator = GetComponent<Animator>();
+            spriteRenderer = GetComponent<SpriteRenderer>();
+        }
         public override void Patrol()
         {
 
         }
-
+       
         public override void OnPlayerDetected()
         {
             if (!isShooting)
@@ -32,7 +38,8 @@ namespace Ruinseeker
         {
 
             isShooting = true;
-
+           // animator.SetBool("IsShooting", true);
+            animator.SetTrigger("Shoot");
             var bullet = Instantiate(bulletPrefab, transform.position, Quaternion.identity);
             var bulletScript = bullet.GetComponent<Bullet>();
             bulletScript.Initialize(transform.position, player.position, bulletSpeed);
@@ -40,6 +47,7 @@ namespace Ruinseeker
             yield return new WaitUntil(() => bullet == null);
 
             isShooting = false;
+            //animator.SetBool("IsShooting", false);
         }
 
         public override void Die()
