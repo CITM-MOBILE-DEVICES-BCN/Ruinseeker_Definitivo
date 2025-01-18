@@ -35,6 +35,10 @@ namespace Ruinseeker
         [SerializeField] private GameObject LeftWallTP;
         [SerializeField] private GameObject RightWallTP;
 
+
+        public SpriteRenderer renderer;
+        public Animator playeranimator;
+
         enum DashDirection
         {
             Left,
@@ -65,8 +69,35 @@ namespace Ruinseeker
         // Update is called once per frame
         void Update()
         {
-            
+            if (moveDirection.x < 0)
+            {
+                renderer.flipX = true; // Girar el sprite horizontalmente
+            }
+            else 
+            {
+                renderer.flipX = false; // Girar el sprite horizontalmente
+            }
+            if (isGrounded && !isTouchingWall)
+            {
+                playeranimator.SetBool("Jump", false);
+                playeranimator.SetBool("Hanged", false);
+                playeranimator.SetBool("Running", true);
+                
+            }
 
+            if (isTouchingWall && !isGrounded)
+            {
+                playeranimator.SetBool("Jump", false);
+                playeranimator.SetBool("Hanged", true);
+                playeranimator.SetBool("Running", false);
+
+            }
+            if(!isGrounded && !isTouchingWall)
+            {
+                playeranimator.SetBool("Jump", true);
+                playeranimator.SetBool("Hanged", false);
+                playeranimator.SetBool("Running", false);
+            }
             if (Input.GetKeyDown(KeyCode.Space) && !hasJumped)
             {
                 if (isTouchingWall)
@@ -76,12 +107,16 @@ namespace Ruinseeker
                 else
                 {
                     Jump();
+
                 }
             }
 
             if (!isTouchingWall && !isDashing)
             {
+             
                 Move();
+               
+
             }
             else if (isDashing)
             {
@@ -93,14 +128,16 @@ namespace Ruinseeker
 
         void Jump()
         {
+          
             rb.velocity = new Vector2(rb.velocity.x, jumpForce);
             hasJumped = true;
+
         }
 
         void WallJump()
         {
             moveDirection.x = -moveDirection.x;
-            
+    
             // Aplicar fuerza en la dirección opuesta a la pared y hacia arriba
             rb.velocity = new Vector2(wallJumpForceX * (-moveDirection.x), jumpForce);
             
@@ -117,10 +154,11 @@ namespace Ruinseeker
         private void DashActivation(Vector2 direction)
         {
             Debug.Log("Dash: " + direction);
+          
 
-             
             if (hasJumped && dashCnt>0) //dashCcnt>0 (1)
             {
+                playeranimator.SetTrigger("Dash");
                 dashDirection = invertedControls ? -direction : direction; isDashing = true; 
                 dashCnt--;
                 velX = rb.velocity.x;
@@ -172,7 +210,20 @@ namespace Ruinseeker
 
         private void DashMovement()
         {
+ 
             transform.Translate(dashDirection * dashSpeed * Time.deltaTime);
+            // Adjust sprite orientation based on dash direction
+            if (dashDirection.x < 0)
+            {
+                renderer.flipX = true;  // Flip sprite for left dashes
+            }
+            else if (dashDirection.x > 0)
+            {
+                renderer.flipX = false; // Default orientation for right dashes
+            }
+
+            float angle = Mathf.Atan2(dashDirection.y, dashDirection.x) * Mathf.Rad2Deg;  // Compute the angle
+            renderer.transform.localRotation = Quaternion.Euler(0, 0, angle);
         }
 
         public void InvertControls()
@@ -213,6 +264,8 @@ namespace Ruinseeker
             
             if (collision.gameObject.CompareTag("Ground"))
             {
+         
+
                 isGrounded = true;
                 if(isTouchingWall)
                 {
@@ -290,6 +343,7 @@ namespace Ruinseeker
         {
             if (!hasStar)
             {
+                playeranimator.SetTrigger("Hurt");
                 DeadFunction();
             }
             else
@@ -348,7 +402,8 @@ namespace Ruinseeker
         public void JumpAfterKillingEnemy()
         {
             rb.velocity = new Vector2(rb.velocity.x, jumpForce / 1.5f);
-           
+        
+            playeranimator.SetTrigger("LowHit");
 
         }
 
