@@ -11,10 +11,12 @@ public class Boomerang : MonoBehaviour
     private bool returning = false;
     private bool hasReturned = false;
 
+
     public bool HasReturned => hasReturned;
 
     public void Initialize(Vector3 startPos, Vector3 playerPos, float boomerangSpeed)
     {
+
         startPosition = startPos;
         speed = boomerangSpeed;
         Vector3 directionToPlayer = (playerPos - startPos).normalized;
@@ -38,6 +40,7 @@ public class Boomerang : MonoBehaviour
             {
                 hasReturned = true;
                 Destroy(gameObject);
+               
             }
         }
     }

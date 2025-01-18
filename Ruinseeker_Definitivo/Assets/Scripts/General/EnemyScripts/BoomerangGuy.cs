@@ -11,9 +11,13 @@ namespace Ruinseeker
         public GameObject boomerangPrefab;
         public float boomerangSpeed = 5f;
         public float boomerangRange = 10f;
-
+        private Animator animator;
         private bool isThrowingBoomerang;
 
+        private void Awake()
+        {
+            animator = GetComponent<Animator>();
+        }
         public override void Patrol()
         {
 
@@ -24,12 +28,14 @@ namespace Ruinseeker
             if (!isThrowingBoomerang)
             {
                 StartCoroutine(ThrowBoomerang());
+                animator.SetBool("HasReturned", true);
             }
         }
 
         private IEnumerator ThrowBoomerang()
         {
-
+            animator.SetTrigger("Throw");
+            animator.SetBool("HasReturned", false);
             isThrowingBoomerang = true;
 
             var boomerang = Instantiate(boomerangPrefab, transform.position, Quaternion.identity);

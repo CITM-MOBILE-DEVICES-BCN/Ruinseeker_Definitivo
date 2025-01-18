@@ -15,11 +15,9 @@ namespace Ruinseeker
         public float bulletRange = 10f;
         private bool isShooting;
         private Animator animator;
-        private SpriteRenderer spriteRenderer;
         private void Awake()
         {
              animator = GetComponent<Animator>();
-            spriteRenderer = GetComponent<SpriteRenderer>();
         }
         public override void Patrol()
         {
