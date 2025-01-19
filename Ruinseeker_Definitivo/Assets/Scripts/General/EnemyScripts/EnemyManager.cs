@@ -4,11 +4,13 @@ using UnityEngine;
 
 namespace Ruinseeker
 {
+
     public class EnemyManager:MonoBehaviour
     {
+        public List<GameObject> enemies = new List<GameObject>();
         public void DestroyAllEnemies()
         {
-            GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+          
 
             foreach (GameObject enemy in enemies)
             {
@@ -26,12 +28,12 @@ namespace Ruinseeker
         }
         public void RespawnAllEnemies()
         {
-            GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+          
 
             foreach (GameObject enemy in enemies)
             {
                 Enemy enemyScript = enemy.GetComponent<Enemy>();
-                if (enemyScript != null)
+                if (enemyScript.isActiveAndEnabled == false)
                 {
                     enemyScript.respawnEnemy();
 
