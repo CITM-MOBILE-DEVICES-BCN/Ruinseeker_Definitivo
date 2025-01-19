@@ -39,6 +39,10 @@ namespace Ruinseeker
         public SpriteRenderer renderer;
         public Animator playeranimator;
 
+        public ParticleSystem wallSliderParticlesRight;
+        public ParticleSystem wallSliderParticlesLeft;
+
+
         enum DashDirection
         {
             Left,
@@ -81,6 +85,8 @@ namespace Ruinseeker
             {
                 playeranimator.SetBool("Jump", false);
                 playeranimator.SetBool("Hanged", false);
+                wallSliderParticlesRight.gameObject.SetActive(false);
+                wallSliderParticlesLeft.gameObject.SetActive(false);
                 playeranimator.SetBool("Running", true);
                 
             }
@@ -89,6 +95,17 @@ namespace Ruinseeker
             {
                 playeranimator.SetBool("Jump", false);
                 playeranimator.SetBool("Hanged", true);
+                if(renderer.flipX == true)
+                {
+                    wallSliderParticlesLeft.gameObject.SetActive(true);
+                    wallSliderParticlesRight.gameObject.SetActive(false);
+                }
+                else if (renderer.flipX == false)
+                {
+                    wallSliderParticlesLeft.gameObject.SetActive(false);
+                    wallSliderParticlesRight.gameObject.SetActive(true);
+                }
+                
                 playeranimator.SetBool("Running", false);
 
             }
@@ -96,6 +113,8 @@ namespace Ruinseeker
             {
                 playeranimator.SetBool("Jump", true);
                 playeranimator.SetBool("Hanged", false);
+                wallSliderParticlesRight.gameObject.SetActive(false);
+                wallSliderParticlesLeft.gameObject.SetActive(false);
                 playeranimator.SetBool("Running", false);
             }
             if (Input.GetKeyDown(KeyCode.Space) && !hasJumped)
