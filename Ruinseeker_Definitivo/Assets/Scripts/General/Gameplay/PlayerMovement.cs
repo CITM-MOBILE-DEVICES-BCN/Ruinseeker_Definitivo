@@ -41,7 +41,7 @@ namespace Ruinseeker
 
         public ParticleSystem wallSliderParticlesRight;
         public ParticleSystem wallSliderParticlesLeft;
-
+        public TrailRenderer trailRenderer;
 
         enum DashDirection
         {
@@ -68,6 +68,11 @@ namespace Ruinseeker
             SwipeDetection.instance.swipePerformed += context => { DashActivation(context); };
             originalPosition = transform.position;
             originalRotation = transform.rotation;
+
+            if (trailRenderer != null)
+            {
+                trailRenderer.emitting = false;
+            }
         }
 
         // Update is called once per frame
@@ -178,6 +183,12 @@ namespace Ruinseeker
             if (hasJumped && dashCnt>0) //dashCcnt>0 (1)
             {
                 playeranimator.SetTrigger("Dash");
+                if (trailRenderer != null)
+                {
+                    trailRenderer.emitting = true;
+                }
+                StartCoroutine(DisableTrailAfterDash());
+
                 dashDirection = invertedControls ? -direction : direction; isDashing = true; 
                 dashCnt--;
                 velX = rb.velocity.x;
@@ -418,6 +429,16 @@ namespace Ruinseeker
 
 
         }
+
+        IEnumerator DisableTrailAfterDash()
+        {
+            yield return new WaitForSeconds(0.3f);
+            if (trailRenderer != null)
+            {
+                trailRenderer.emitting = false;
+            }
+        }
+
         public void JumpAfterKillingEnemy()
         {
             rb.velocity = new Vector2(rb.velocity.x, jumpForce / 1.5f);
