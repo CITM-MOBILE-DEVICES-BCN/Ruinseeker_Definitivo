@@ -303,7 +303,7 @@ namespace Ruinseeker
                 }
                 isTouchingWall = false;
                 // Restaurar el estado original del personaje
-                transform.position = new Vector3(transform.position.x, originalPosition.y, transform.position.z);
+                transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z);
                 transform.rotation = originalRotation;
                 rb.velocity = Vector3.zero;
                 hasJumped = false; // Resetear el estado de salto
