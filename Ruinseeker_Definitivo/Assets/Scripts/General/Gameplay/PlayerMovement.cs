@@ -180,7 +180,7 @@ namespace Ruinseeker
             Debug.Log("Dash: " + direction);
           
 
-            if (hasJumped && dashCnt>0) //dashCcnt>0 (1)
+            if (!isGrounded && !isTouchingWall && dashCnt>0) //dashCcnt>0 (1)
             {
                 playeranimator.SetTrigger("Dash");
                 if (trailRenderer != null)
