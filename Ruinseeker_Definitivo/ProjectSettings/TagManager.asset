@@ -47,3 +47,12 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: TP
+    uniqueID: 3548244897
+    locked: 0
+  - name: Terrain
+    uniqueID: 2511499013
+    locked: 0
+  - name: Tiles
+    uniqueID: 2494238191
+    locked: 0
