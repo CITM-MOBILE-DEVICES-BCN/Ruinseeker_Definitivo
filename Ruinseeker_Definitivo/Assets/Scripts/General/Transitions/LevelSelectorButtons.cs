@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -14,7 +15,8 @@ namespace Ruinseeker
             public string levelName;
             public TextMeshProUGUI starsText;
             public Image[] starImages;
-            public Button levelButton;
+            public Image completedLevelImage;
+            public Button levelButton;            
         }
 
         [Header("Global Progress")]
@@ -25,28 +27,84 @@ namespace Ruinseeker
         [SerializeField] private LevelUI[] levelUIs;
 
 
+        [SerializeField] private Image[] ArrowLevel1;
+        [SerializeField] private Image[] ArrowLevel2;
+        [SerializeField] private Image[] ArrowLevel3;
+        [SerializeField] private Image[] ArrowLevel4;
+
+
         public Button backButton;
-        public Button level1Button;
-        public Button level2Button;
-        public Button level3Button;
-        public Button level4Button;
-        public Button level5Button;
 
         private void Awake()
         {
+
             backButton.onClick.AddListener(() => GameManager.Instance.LoadSceneRequest("LobbyScene"));
-            level1Button.onClick.AddListener(() => GameManager.Instance.LoadSceneRequest("Level 1"));
-            level2Button.onClick.AddListener(() => GameManager.Instance.LoadSceneRequest("Level 2"));
-            level3Button.onClick.AddListener(() => GameManager.Instance.LoadSceneRequest("Level 3"));
-            level4Button.onClick.AddListener(() => GameManager.Instance.LoadSceneRequest("Level 4"));
-            level5Button.onClick.AddListener(() => GameManager.Instance.LoadSceneRequest("Level 5"));
+           
         }
 
         private void Start()
         {
+            RestartArrowsScale();
             UpdateUI();
+            StartCoroutine(SpawnArrowsSequentially());
+
             ScoreManager.Instance.OnProgressUpdated += UpdateUI;
         }
+
+        public void RestartArrowsScale()
+        {
+            for (int i = 0; i < ArrowLevel1.Length; i++)
+            {
+                ArrowLevel1[i].transform.localScale = Vector3.zero;
+            }
+            for (int i = 0; i < ArrowLevel2.Length; i++)
+            {
+                ArrowLevel2[i].transform.localScale = Vector3.zero;
+            }
+            for (int i = 0; i < ArrowLevel3.Length; i++)
+            {
+                ArrowLevel3[i].transform.localScale = Vector3.zero;
+            }
+            for (int i = 0; i < ArrowLevel4.Length; i++)
+            {
+                ArrowLevel4[i].transform.localScale = Vector3.zero;
+            }
+        }
+
+
+
+        private IEnumerator SpawnArrowsSequentially()
+        {
+            Image[][] arrowLevels = { ArrowLevel1, ArrowLevel2, ArrowLevel3, ArrowLevel4 };
+
+            for (int i = 0; i < levelUIs.Length - 1; i++)
+            {
+                var (stars, _) = ScoreManager.Instance.GetLevelProgress(levelUIs[i].levelName);
+
+                if (stars > 0)
+                {
+                    yield return StartCoroutine(AnimateArrows(arrowLevels[i]));
+                }
+            }
+        }
+
+        private IEnumerator AnimateArrows(Image[] arrows)
+        {
+            foreach (Image arrow in arrows)
+            {
+                if (arrow != null)
+                {
+                    arrow.transform.localScale = Vector3.zero;
+
+                    Sequence arrowSequence = DOTween.Sequence();
+                    arrowSequence.Append(arrow.transform.DOScale(new Vector3(2, 3, 2), 0.5f))
+                                 .Append(arrow.transform.DOScale(Vector3.one, 0.2f));
+
+                    yield return arrowSequence.WaitForCompletion();
+                }
+            }
+        }
+
 
         private void OnDestroy()
         {
@@ -64,13 +122,32 @@ namespace Ruinseeker
 
             if (totalScoreText != null)
                 totalScoreText.text = $"Total Score: {ScoreManager.Instance.TotalScore}";
+            bool wasPreviousLevelCompleted = true;
 
             // Update each level's progress
             foreach (var levelUI in levelUIs)
             {
                 if (levelUI == null) continue;
-
+                
                 var (stars, maxStars) = ScoreManager.Instance.GetLevelProgress(levelUI.levelName);
+                if (stars == 0)
+                {
+                    levelUI.completedLevelImage.gameObject.SetActive(false);
+                    if (wasPreviousLevelCompleted)
+                    {
+                        levelUI.levelButton.onClick.AddListener(() => GameManager.Instance.LoadSceneRequest(levelUI.levelName));         
+                        wasPreviousLevelCompleted = false;
+                    }
+                    else
+                    {
+                        levelUI.levelButton.interactable = false;
+                    }
+                    
+                }
+                else 
+                {
+                    levelUI.levelButton.onClick.AddListener(() => GameManager.Instance.LoadSceneRequest(levelUI.levelName));
+                }
 
                 // Update stars text
                 if (levelUI.starsText != null)
