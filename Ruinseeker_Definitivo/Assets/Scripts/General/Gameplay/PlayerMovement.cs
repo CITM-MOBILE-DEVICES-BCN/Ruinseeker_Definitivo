@@ -21,6 +21,7 @@ namespace Ruinseeker
         public bool hasBoots = false;
         public bool hasStar = false;
         public int dashCnt = 1;
+        public bool canTP = true;
         [SerializeField] private bool hasJumped = false;
         [SerializeField] private bool isTouchingWall = false;
         [SerializeField] private bool isGrounded = false;
@@ -152,7 +153,7 @@ namespace Ruinseeker
 
         void Jump()
         {
-          
+            if (!isGrounded) return;
             rb.velocity = new Vector2(rb.velocity.x, jumpForce);
             hasJumped = true;
 
@@ -264,14 +265,47 @@ namespace Ruinseeker
 
         void OnCollisionEnter2D(Collision2D collision)
         {
-            if (collision.gameObject.CompareTag("Wall"))
+            if (collision.gameObject.CompareTag("Wall") || collision.gameObject.CompareTag("Ground"))
             {
-               
-                if (!isGrounded)
+                InterruptDash();
+
+                if (collision.gameObject.CompareTag("Wall"))
                 {
-                    isTouchingWall = true;
-                    hasJumped = false;
-                    hasDashed = false;
+                    if (!isGrounded)
+                    {
+                        isTouchingWall = true;
+                        hasJumped = false;
+                        hasDashed = false;
+                        if (hasBoots == true)
+                        {
+                            dashCnt = 2;
+                        }
+                        else
+                        {
+                            dashCnt = 1;
+                        }
+                        rb.velocity = new Vector2(0, -wallSlideSpeed); // Deslizarse lentamente hacia abajo
+                    }
+                    else
+                    {
+                        moveDirection = moveDirection == Vector3.right ? Vector3.left : Vector3.right;
+                    }
+                }
+
+                if (collision.gameObject.CompareTag("Ground"))
+                {
+                    isGrounded = true;
+                    if (isTouchingWall)
+                    {
+                        moveDirection.x = -moveDirection.x;
+                    }
+                    isTouchingWall = false;
+                    // Restaurar el estado original del personaje
+                    transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z);
+                    transform.rotation = originalRotation;
+                    rb.velocity = Vector3.zero;
+                    hasJumped = false; // Resetear el estado de salto
+                    hasDashed = false; // Resetear el estado de dash
                     if (hasBoots == true)
                     {
                         dashCnt = 2;
@@ -280,47 +314,22 @@ namespace Ruinseeker
                     {
                         dashCnt = 1;
                     }
-                    rb.velocity = new Vector2(0, -wallSlideSpeed); // Deslizarse lentamente hacia abajo
-                }
-                else
-                {
-                    moveDirection = moveDirection == Vector3.right ? Vector3.left : Vector3.right;
-                }
-                if(isDashing)
-                {
-                    isDashing = false;
                 }
             }
-            
-            if (collision.gameObject.CompareTag("Ground"))
-            {
-         
-
-                isGrounded = true;
-                if(isTouchingWall)
-                {
-                    moveDirection.x = -moveDirection.x;
-                }
-                isTouchingWall = false;
-                // Restaurar el estado original del personaje
-                transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z);
-                transform.rotation = originalRotation;
-                rb.velocity = Vector3.zero;
-                hasJumped = false; // Resetear el estado de salto
-                hasDashed = false; // Resetear el estado de dash
-                if (hasBoots == true)
-                {
-                    dashCnt = 2;
-                }
-                else
-                {
-                    dashCnt = 1;
-                }
-            }
-
-        
         }
 
+        void InterruptDash()
+        {
+            if (isDashing)
+            {
+                isDashing = false;
+                rb.velocity = Vector2.zero;
+                if (trailRenderer != null)
+                {
+                    trailRenderer.emitting = false;
+                }
+            }
+        }
         void OnCollisionStay2D(Collision2D collision)
         {
             if (collision.gameObject.CompareTag("Wall") && !isGrounded && isTouchingWall)
@@ -353,22 +362,29 @@ namespace Ruinseeker
         }
         private void OnTriggerExit2D(Collider2D collision)
         {
+            if (!canTP) return;
+
             if (collision.gameObject.CompareTag("LeftWallTP"))
             {
-                transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z);
-                transform.position = new Vector3(RightWallTP.transform.position.x-0.45f, transform.position.y, transform.position.z);
+                transform.position = new Vector3(RightWallTP.transform.position.x - 0.45f, transform.position.y, transform.position.z);
                 Debug.Log("LeftWallTP");
-
+                StartCoroutine(TeleportCooldown());
             }
-            if (collision.gameObject.CompareTag("RightWallTP"))
+            else if (collision.gameObject.CompareTag("RightWallTP"))
             {
-
-                transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z);
-                transform.position = new Vector3(LeftWallTP.transform.position.x+0.45f, transform.position.y, transform.position.z);
+                transform.position = new Vector3(LeftWallTP.transform.position.x + 0.45f, transform.position.y, transform.position.z);
                 Debug.Log("RightWallTP");
-
+                StartCoroutine(TeleportCooldown());
             }
         }
+
+        private IEnumerator TeleportCooldown()
+        {
+            canTP = false;
+            yield return new WaitForSeconds(0.25f);
+            canTP = true;
+        }
+
         public void CheckDeath()
         {
             if (!hasStar)
