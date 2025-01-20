@@ -363,7 +363,7 @@ namespace Ruinseeker
             }
       
         }
-        private void OnTriggerExit2D(Collider2D collision)
+        private void OnTriggerEnter2D(Collider2D collision)
         {
             if (!canTP) return;
 
@@ -384,7 +384,7 @@ namespace Ruinseeker
         private IEnumerator TeleportCooldown()
         {
             canTP = false;
-            yield return new WaitForSeconds(0.25f);
+            yield return new WaitForSeconds(0.5f);
             canTP = true;
         }
 

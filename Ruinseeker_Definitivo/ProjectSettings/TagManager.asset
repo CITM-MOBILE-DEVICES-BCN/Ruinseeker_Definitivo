@@ -44,6 +44,9 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: TilesBG
+    uniqueID: 1649967469
+    locked: 0
   - name: Default
     uniqueID: 0
     locked: 0
@@ -53,6 +56,6 @@ TagManager:
   - name: Terrain
     uniqueID: 2511499013
     locked: 0
-  - name: Tiles
+  - name: TilesTerrain
     uniqueID: 2494238191
     locked: 0
