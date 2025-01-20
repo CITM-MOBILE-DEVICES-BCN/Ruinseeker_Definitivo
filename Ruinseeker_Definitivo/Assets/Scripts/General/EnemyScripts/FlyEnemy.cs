@@ -6,17 +6,73 @@ namespace Ruinseeker {
     public class FlyEnemy : Enemy
     {
         private bool isChasingPlayer = false;
+        public Transform waypointA; 
+        public Transform waypointB;
+        public float patrolSpeed = 0.5f; 
 
+        private Transform targetWaypoint;
+        private bool isPatrolling = true; 
+
+        private Vector3 waypointAWorldPos;
+        private Vector3 waypointBWorldPos;
+        private void Awake()
+        {
+            if (waypointA == null || waypointB == null)
+            {
+                Debug.LogError("Waypoints no asignados!");
+                return;
+            }
+            waypointAWorldPos = waypointA.position;
+            waypointBWorldPos = waypointB.position;
+
+            waypointA.SetParent(null);
+            waypointB.SetParent(null);
+            targetWaypoint = waypointB;
+        }
         public override void Patrol()
         {
+            if (!IsPlayerInRange())
+            {
+                MoveTowardsWaypoint();
+            }
+        }
+        private void MoveTowardsWaypoint()
+        {
+            Vector3 targetPosition = targetWaypoint == waypointA ? waypointAWorldPos : waypointBWorldPos;
+            transform.position = Vector3.MoveTowards(transform.position, targetPosition, patrolSpeed * Time.deltaTime);
+
+            FlipToWaypoint(targetPosition);
+            if (transform.position == targetPosition)
+            {
+                targetWaypoint = (targetWaypoint == waypointA) ? waypointB : waypointA;
+            }
+        }
+        private void FlipToWaypoint(Vector3 targetPosition)
+        {
+            if (targetPosition.x > transform.position.x)
+            {
+                spriteRenderer.flipX = false;
+            }
+            else if (targetPosition.x < transform.position.x)
+            {
+                spriteRenderer.flipX = true;
+            }
         }
 
         public override void OnPlayerDetected()
         {
+            StopPatrolling();
             isChasingPlayer = true;
             transform.position = Vector3.MoveTowards(transform.position, player.position, moveSpeed * Time.deltaTime);
         }
-
+        private void StopPatrolling()
+        {
+            isPatrolling = false;
+        }
+        private void ResumePatrolling()
+        {
+            isPatrolling = true;
+        }
         public override void Die()
         {
             Debug.Log("Fly defeated!");
