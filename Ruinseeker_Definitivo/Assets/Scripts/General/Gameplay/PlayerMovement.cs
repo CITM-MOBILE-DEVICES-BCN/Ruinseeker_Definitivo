@@ -27,6 +27,7 @@ namespace Ruinseeker
         [SerializeField] private bool isGrounded = false;
         [SerializeField] private bool isDashing = false;
         [SerializeField] private bool hasDashed = false;
+        [SerializeField] private bool dashInterrupted = false;
         [SerializeField] private EnemyManager enemyManager;
         private float velX;
         private float velY;
@@ -267,7 +268,7 @@ namespace Ruinseeker
         {
             if (collision.gameObject.CompareTag("Wall") || collision.gameObject.CompareTag("Ground"))
             {
-                InterruptDash();
+                
 
                 if (collision.gameObject.CompareTag("Wall"))
                 {
@@ -315,6 +316,7 @@ namespace Ruinseeker
                         dashCnt = 1;
                     }
                 }
+                InterruptDash();
             }
         }
 
@@ -323,6 +325,7 @@ namespace Ruinseeker
             if (isDashing)
             {
                 isDashing = false;
+                dashInterrupted = true;
                 rb.velocity = Vector2.zero;
                 if (trailRenderer != null)
                 {
@@ -410,7 +413,7 @@ namespace Ruinseeker
         {
             yield return new WaitForSeconds(seconds);
             
-            if(!isDashing)
+            if(!isDashing && !dashInterrupted)
             {
                 switch (dashDir)
                 {
@@ -442,6 +445,7 @@ namespace Ruinseeker
             }
        
             isDashing = false;
+            dashInterrupted = false;
 
 
         }
