@@ -16,8 +16,8 @@ namespace Ruinseeker
         {
             ruinseekerButton.onClick.AddListener(() => GameManager.Instance.LoadSceneRequest("LevelSelectorScene"));
             //WaltersWalkButton.onClick.AddListener(() => WaltersWalk());
-            //KyotoNinjaButton.onClick.AddListener(() => KyotoNinja());
-            //RobotinButton.onClick.AddListener(() => Robotin());
+            kyotoNinjaButton.onClick.AddListener(() => GameManager.Instance.LoadSceneRequest("MainMenu_1"));
+            robotinButton.onClick.AddListener(() => GameManager.Instance.LoadSceneRequest("RobotinMeta"));
         }
     }
 }
