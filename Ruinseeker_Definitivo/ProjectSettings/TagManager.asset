@@ -10,6 +10,7 @@ TagManager:
   - Enemy
   - LeftWallTP
   - RightWallTP
+  - Platform
   layers:
   - Default
   - TransparentFX
