@@ -32,6 +32,8 @@ namespace Ruinseeker
         [SerializeField] private Image[] ArrowLevel3;
         [SerializeField] private Image[] ArrowLevel4;
 
+        Sequence arrowSequence;
+
 
         public Button backButton;
 
@@ -41,70 +43,15 @@ namespace Ruinseeker
             backButton.onClick.AddListener(() => GameManager.Instance.LoadSceneRequest("LobbyScene"));
            
         }
-
         private void Start()
         {
-            RestartArrowsScale();
-            UpdateUI();
-            StartCoroutine(SpawnArrowsSequentially());
+            RestartArrowsScale(); // Reinicia las escalas y mata las animaciones previas
+            UpdateUI();           // Actualiza el progreso de la UI
+            SpawnArrowsSequentially(); // Inicia la animación de las flechas
+
 
             ScoreManager.Instance.OnProgressUpdated += UpdateUI;
         }
-
-        public void RestartArrowsScale()
-        {
-            for (int i = 0; i < ArrowLevel1.Length; i++)
-            {
-                ArrowLevel1[i].transform.localScale = Vector3.zero;
-            }
-            for (int i = 0; i < ArrowLevel2.Length; i++)
-            {
-                ArrowLevel2[i].transform.localScale = Vector3.zero;
-            }
-            for (int i = 0; i < ArrowLevel3.Length; i++)
-            {
-                ArrowLevel3[i].transform.localScale = Vector3.zero;
-            }
-            for (int i = 0; i < ArrowLevel4.Length; i++)
-            {
-                ArrowLevel4[i].transform.localScale = Vector3.zero;
-            }
-        }
-
-
-
-        private IEnumerator SpawnArrowsSequentially()
-        {
-            Image[][] arrowLevels = { ArrowLevel1, ArrowLevel2, ArrowLevel3, ArrowLevel4 };
-
-            for (int i = 0; i < levelUIs.Length - 1; i++)
-            {
-                var (stars, _) = ScoreManager.Instance.GetLevelProgress(levelUIs[i].levelName);
-
-                if (stars > 0)
-                {
-                    yield return StartCoroutine(AnimateArrows(arrowLevels[i]));
-                }
-            }
-        }
-
-        private IEnumerator AnimateArrows(Image[] arrows)
-        {
-            foreach (Image arrow in arrows)
-            {
-                if (arrow != null)
-                {
-                    arrow.transform.localScale = Vector3.zero;
-
-                    Sequence arrowSequence = DOTween.Sequence();
-                    arrowSequence.Append(arrow.transform.DOScale(new Vector3(2, 3, 2), 0.5f))
-                                 .Append(arrow.transform.DOScale(Vector3.one, 0.2f));
-
-                    yield return arrowSequence.WaitForCompletion();
-                }
-            }
-        }
-
 
         private void OnDestroy()
         {
@@ -112,7 +59,69 @@ namespace Ruinseeker
             {
                 ScoreManager.Instance.OnProgressUpdated -= UpdateUI;
             }
+
+            // Detén todas las animaciones asociadas con las flechas
+            Image[][] arrowLevels = { ArrowLevel1, ArrowLevel2, ArrowLevel3, ArrowLevel4 };
+            foreach (var arrowLevel in arrowLevels)
+            {
+                foreach (var arrow in arrowLevel)
+                {
+                    if (arrow != null)
+                    {
+                        DOTween.Kill(arrow.transform); // Detén cualquier animación activa
+                    }
+                }
+            }
         }
+
+
+        public void RestartArrowsScale()
+        {
+            Image[][] arrowLevels = { ArrowLevel1, ArrowLevel2, ArrowLevel3, ArrowLevel4 };
+
+            foreach (var arrowLevel in arrowLevels)
+            {
+                foreach (var arrow in arrowLevel)
+                {
+                    if (arrow != null)
+                    {
+                        arrow.transform.localScale = Vector3.zero; // Reinicia la escala de todas las flechas
+                        DOTween.Kill(arrow.transform); // Asegúrate de eliminar cualquier animación previa
+                    }
+                }
+            }
+        }
+
+        private void SpawnArrowsSequentially()
+        {
+    
+            Image[][] arrowLevels = { ArrowLevel1, ArrowLevel2, ArrowLevel3, ArrowLevel4 };
+            for (int i = 1; i < levelUIs.Length ; i++)
+            {
+                //var (stars, _) = ScoreManager.Instance.GetLevelProgress(levelUIs[i].levelName);
+
+                var stars = i < 4 ? 3 : 0;
+                AnimateArrows(arrowLevels[i-1], stars == 0);
+                if(stars == 0) return;
+            }
+        }
+
+        private void AnimateArrows(Image[] arrows, bool isLast = true)
+        {
+            for (int i = 0; i < arrows.Length; i++)
+            {
+                var arrow = arrows[i];
+                if (arrow != null)
+                {
+                    //TODO:^Pass isLast as a parameter
+                    
+                    arrow.transform.localScale = Vector3.zero;
+                    DOTween.Kill(arrow.transform); // Detén cualquier animación previa en este transform
+                    arrow.transform.DOScale(Vector3.one, isLast ? 0.4f: 0).SetDelay(isLast ? 0.2f * i : 0).SetEase(Ease.OutBack,10);
+                }
+            }
+        }
+
 
         private void UpdateUI()
         {
@@ -134,8 +143,16 @@ namespace Ruinseeker
                 {
                     levelUI.completedLevelImage.gameObject.SetActive(false);
                     if (wasPreviousLevelCompleted)
-                    {
-                        levelUI.levelButton.onClick.AddListener(() => GameManager.Instance.LoadSceneRequest(levelUI.levelName));         
+                    {     
+                        levelUI.levelButton.onClick.AddListener(() =>
+                        {
+                            StopAllCoroutines();
+                            if(arrowSequence != null)
+                            {
+                                arrowSequence.Kill();
+                            }
+                            GameManager.Instance.LoadSceneRequest(levelUI.levelName);
+                        });
                         wasPreviousLevelCompleted = false;
                     }
                     else
@@ -146,7 +163,15 @@ namespace Ruinseeker
                 }
                 else 
                 {
-                    levelUI.levelButton.onClick.AddListener(() => GameManager.Instance.LoadSceneRequest(levelUI.levelName));
+                    levelUI.levelButton.onClick.AddListener(() =>
+                    {
+                        StopAllCoroutines();
+                        if (arrowSequence != null)
+                        {
+                            arrowSequence.Kill();
+                        }
+                        GameManager.Instance.LoadSceneRequest(levelUI.levelName);
+                    });
                 }
 
                 // Update stars text

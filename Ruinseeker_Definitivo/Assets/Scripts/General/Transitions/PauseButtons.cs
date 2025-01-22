@@ -16,8 +16,12 @@ namespace Ruinseeker
             resumeButton.onClick.AddListener(() => GameManager.Instance.ResumeGame());
             settingsButton.onClick.AddListener(() => GameManager.Instance.DestroyScreenRequest("PauseCanvas"));
             settingsButton.onClick.AddListener(() => GameManager.Instance.LoadScreenRequest("SettingsCanvas"));
-            exitButton.onClick.AddListener(() => GameManager.Instance.DestroyScreenRequest("PauseCanvas"));
-            exitButton.onClick.AddListener(() => GameManager.Instance.LoadSceneRequest("LevelSelectorScene"));
+            exitButton.onClick.AddListener(() => {
+                GameManager.Instance.DestroyScreenRequest("PauseCanvas");
+                Time.timeScale = 1;
+                GameManager.Instance.LoadSceneRequest("LevelSelectorScene");
+            }
+            );
             
         }
     }

@@ -1108,13 +1108,13 @@ TextureImporter:
       name: 04_48
       rect:
         serializedVersion: 2
-        x: 55
+        x: 57
         y: 117
-        width: 34
+        width: 32
         height: 5
       alignment: 9
       pivot: {x: 0, y: 1}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      border: {x: 0, y: 1, z: 2, w: 1}
       outline: []
       physicsShape: []
       tessellationDetail: 0
