@@ -123,7 +123,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e8cf69a51773e84cb990c19bbec6f25, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  jumpForce: 6.5
+  jumpForce: 7
   moveSpeed: 3
   dashSpeed: 10
   wallJumpForce: 5
@@ -132,11 +132,13 @@ MonoBehaviour:
   hasBoots: 0
   hasStar: 0
   dashCnt: 1
+  canTP: 1
   hasJumped: 0
   isTouchingWall: 0
   isGrounded: 0
   isDashing: 0
   hasDashed: 0
+  dashInterrupted: 0
   enemyManager: {fileID: 0}
   LeftWallTP: {fileID: 0}
   RightWallTP: {fileID: 0}
