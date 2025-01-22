@@ -18,6 +18,7 @@ namespace Ruinseeker
         private Vector2 dashDirection = Vector2.zero;
         private Vector3 originalPosition;
         private Quaternion originalRotation;
+        private int groundContactCount = 0; //Por si toca varios suelos a la vez
         public bool hasBoots = false;
         public bool hasStar = false;
         public int dashCnt = 1;
@@ -268,8 +269,6 @@ namespace Ruinseeker
         {
             if (collision.gameObject.CompareTag("Wall") || collision.gameObject.CompareTag("Ground"))
             {
-                
-
                 if (collision.gameObject.CompareTag("Wall"))
                 {
                     if (!isGrounded)
@@ -295,6 +294,7 @@ namespace Ruinseeker
 
                 if (collision.gameObject.CompareTag("Ground"))
                 {
+                    groundContactCount++;
                     isGrounded = true;
                     if (isTouchingWall)
                     {
@@ -319,7 +319,6 @@ namespace Ruinseeker
                 InterruptDash();
             }
         }
-
         void InterruptDash()
         {
             if (isDashing)
@@ -344,26 +343,27 @@ namespace Ruinseeker
         }
 
 
-        void OnCollisionExit2D(Collision2D collision)
+void OnCollisionExit2D(Collision2D collision)
+{
+    if (collision.gameObject.CompareTag("Wall"))
+    {
+        isTouchingWall = false;
+    }
+
+    if (collision.gameObject.CompareTag("Ground"))
+    {
+        groundContactCount--;
+        if (groundContactCount <= 0)
         {
-            if (collision.gameObject.CompareTag("Wall"))
-            {
-                isTouchingWall = false;
-            }
-            
-            if (collision.gameObject.CompareTag("Ground"))
-            {
-                isGrounded = false;
-            }
-
-            if (collision.gameObject.CompareTag("Dead"))
-            {
-                CheckDeath();
-
-            }
-      
+            isGrounded = false;
         }
-        private void OnTriggerEnter2D(Collider2D collision)
+    }
+
+    if (collision.gameObject.CompareTag("Dead"))
+    {
+        CheckDeath();
+    }
+}        private void OnTriggerEnter2D(Collider2D collision)
         {
             if (!canTP) return;
 
