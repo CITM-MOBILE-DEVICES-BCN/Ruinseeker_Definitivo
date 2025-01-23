@@ -137,6 +137,7 @@ namespace Ruinseeker
                     {
                         levelUI.levelButton.onClick.AddListener(() => GameManager.Instance.LoadSceneRequest(levelUI.levelName));
                         AudioManager.instance.PlayButtonSound();
+                        
                         wasPreviousLevelCompleted = false;
                     }
                     else
@@ -149,6 +150,7 @@ namespace Ruinseeker
                 {
                     levelUI.levelButton.onClick.AddListener(() => GameManager.Instance.LoadSceneRequest(levelUI.levelName));
                     AudioManager.instance.PlayButtonSound();
+                    
                 }
 
                 // Update stars text
