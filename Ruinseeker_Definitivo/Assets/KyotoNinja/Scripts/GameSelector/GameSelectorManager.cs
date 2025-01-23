@@ -19,7 +19,7 @@ public class GameSelectorManager : MonoBehaviour
 
     private void Awake()
     {
-        //AudioManager.instance.PlayMenuMusic();
+        AudioManager.instance.PlayMenuMusic();
     }
 
     private void Start()
