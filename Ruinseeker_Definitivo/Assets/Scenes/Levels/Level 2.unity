@@ -68454,33 +68454,19 @@ CompositeCollider2D:
   - m_Collider: {fileID: 1425856100}
     m_ColliderPaths:
     - - X: 3747429
-        Y: 136567472
+        Y: 292493888
       - X: -9563786
-        Y: 136567472
+        Y: 292493888
       - X: -9563786
-        Y: -55032128
+        Y: -55032140
       - X: 3747429
-        Y: -55032128
-  - m_Collider: {fileID: 2144886350}
-    m_ColliderPaths:
-    - - X: 139838976
-        Y: 171024192
-      - X: -15362329
-        Y: 171024192
-      - X: -15362329
-        Y: 113858016
-      - X: 139838976
-        Y: 113858016
+        Y: -55032140
   m_CompositePaths:
     m_Paths:
-    - - {x: 0.3747136, y: -5.503213}
-      - {x: 0.3747723, y: 11.385801}
-      - {x: 13.983898, y: 11.385831}
-      - {x: 13.983869, y: 17.102419}
-      - {x: -1.536233, y: 17.10239}
-      - {x: -1.5362036, y: 11.385801}
-      - {x: -0.95637864, y: 11.385772}
-      - {x: -0.9563493, y: -5.503213}
+    - - {x: 0.3747136, y: -5.503214}
+      - {x: 0.3747136, y: 29.24939}
+      - {x: -0.95637864, y: 29.249361}
+      - {x: -0.9563493, y: -5.503214}
   m_VertexDistance: 0.0005
   m_OffsetDistance: 0.00005
   m_UseDelaunayMesh: 0
@@ -68499,7 +68485,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1425856099}
-  - {fileID: 2144886351}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!50 &1349497785
@@ -68593,7 +68578,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 1
-  m_Offset: {x: -0.2908178, y: 4.076767}
+  m_Offset: {x: -0.2908178, y: 11.873087}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -68604,7 +68589,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.3311216, y: 19.15996}
+  m_Size: {x: 1.3311216, y: 34.7526}
   m_EdgeRadius: 0
 --- !u!1 &1431441424 stripped
 GameObject:
@@ -85992,83 +85977,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 865f6a55bdaf72c4dba6c61289e4c81b, type: 3}
---- !u!1 &2144886349
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2144886351}
-  - component: {fileID: 2144886350}
-  m_Layer: 0
-  m_Name: Checkpoint room
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!61 &2144886350
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2144886349}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 1
-  m_Offset: {x: 6.2238326, y: 14.24411}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 15.520131, y: 5.7166185}
-  m_EdgeRadius: 0
---- !u!4 &2144886351
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2144886349}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1349497784}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &7819947585420338574
 PrefabInstance:
   m_ObjectHideFlags: 0
