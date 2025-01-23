@@ -12,6 +12,7 @@ namespace Ruinseeker
         private void Awake()
         {
             pauseButton.onClick.AddListener(() => GameManager.Instance.PauseGame());
+            AudioManager.instance.PlayButtonSound();
         }
     }
 }

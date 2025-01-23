@@ -89,6 +89,7 @@ namespace Ruinseeker
         private IEnumerator ThrowBoomerang()
         {
             animator.SetTrigger("Throw");
+            AudioManager.instance.PlayBoomerangSource();
             animator.SetBool("HasReturned", false);
             isThrowingBoomerang = true;
 

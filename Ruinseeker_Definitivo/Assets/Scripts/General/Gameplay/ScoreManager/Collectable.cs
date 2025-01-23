@@ -15,6 +15,7 @@ namespace Ruinseeker
             if (other.CompareTag("Player"))
             {
                 OnCollect();
+                AudioManager.instance.PlayGemCollectedSound();
             }
         }
 

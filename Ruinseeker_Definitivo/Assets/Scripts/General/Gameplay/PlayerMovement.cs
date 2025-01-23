@@ -157,6 +157,7 @@ namespace Ruinseeker
             if (!isGrounded) return;
             rb.velocity = new Vector2(rb.velocity.x, jumpForce);
             hasJumped = true;
+            AudioManager.instance.PlayJumpSound();
 
         }
 
@@ -244,6 +245,7 @@ namespace Ruinseeker
         {
  
             transform.Translate(dashDirection * dashSpeed * Time.deltaTime);
+            AudioManager.instance.PlayDashSound();
             // Adjust sprite orientation based on dash direction
             if (dashDirection.x < 0)
             {
@@ -286,6 +288,8 @@ namespace Ruinseeker
                             dashCnt = 1;
                         }
                         rb.velocity = new Vector2(0, -wallSlideSpeed); // Deslizarse lentamente hacia abajo
+
+                        AudioManager.instance.PlayJumpSound();
                     }
                     else
                     {
@@ -372,12 +376,14 @@ namespace Ruinseeker
                 transform.position = new Vector3(RightWallTP.transform.position.x - 0.45f, transform.position.y, transform.position.z);
                 Debug.Log("LeftWallTP");
                 StartCoroutine(TeleportCooldown());
+                AudioManager.instance.PlayPortalSound();
             }
             else if (collision.gameObject.CompareTag("RightWallTP"))
             {
                 transform.position = new Vector3(LeftWallTP.transform.position.x + 0.45f, transform.position.y, transform.position.z);
                 Debug.Log("RightWallTP");
                 StartCoroutine(TeleportCooldown());
+                AudioManager.instance.PlayPortalSound();
             }
         }
 
@@ -393,7 +399,9 @@ namespace Ruinseeker
             if (!hasStar)
             {
                 playeranimator.SetTrigger("Hurt");
+                AudioManager.instance.PlayDeathSound();
                 DeadFunction();
+                
             }
             else
             {
@@ -464,6 +472,7 @@ namespace Ruinseeker
             rb.velocity = new Vector2(rb.velocity.x, jumpForce / 1.5f);
         
             playeranimator.SetTrigger("LowHit");
+            AudioManager.instance.PlayDamageSound();
 
         }
 

@@ -135,7 +135,8 @@ namespace Ruinseeker
                     levelUI.completedLevelImage.gameObject.SetActive(false);
                     if (wasPreviousLevelCompleted)
                     {
-                        levelUI.levelButton.onClick.AddListener(() => GameManager.Instance.LoadSceneRequest(levelUI.levelName));         
+                        levelUI.levelButton.onClick.AddListener(() => GameManager.Instance.LoadSceneRequest(levelUI.levelName));
+                        AudioManager.instance.PlayButtonSound();
                         wasPreviousLevelCompleted = false;
                     }
                     else
@@ -147,6 +148,7 @@ namespace Ruinseeker
                 else 
                 {
                     levelUI.levelButton.onClick.AddListener(() => GameManager.Instance.LoadSceneRequest(levelUI.levelName));
+                    AudioManager.instance.PlayButtonSound();
                 }
 
                 // Update stars text
