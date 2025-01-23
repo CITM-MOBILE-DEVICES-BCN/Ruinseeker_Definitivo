@@ -120,9 +120,8 @@ namespace Ruinseeker
             if (hasLevelBeenCompleted) return;
 
             string currentLevel = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
-            int stars = Mathf.Max(1, CalculateStars()); // Ensure at least 1 star
+            int stars = Mathf.Max(1, CalculateStars());
 
-            // Update level progress
             var levelData = saveData.levelProgress.FirstOrDefault(l => l.levelName == currentLevel);
             if (levelData == null)
             {
@@ -130,7 +129,6 @@ namespace Ruinseeker
                 saveData.levelProgress.Add(levelData);
             }
 
-            // Only update if we got more stars
             if (stars > levelData.stars)
             {
                 int starDifference = stars - levelData.stars;
@@ -138,7 +136,6 @@ namespace Ruinseeker
                 levelData.stars = stars;
             }
 
-            // Update gems if we collected more
             if (currentGems > levelData.highestGems)
             {
                 int gemDifference = currentGems - levelData.highestGems;

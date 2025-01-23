@@ -12,7 +12,6 @@ namespace Ruinseeker
 
         private void Awake()
         {
-            //TODO: save and load function for items
             itemButton.Init(UseItem);
             if(currentItem != null)
             {
@@ -110,7 +109,6 @@ namespace Ruinseeker
             if(currentItem != null && ScoreManager.Instance.CurrentGems >= currentItem.price)
             {
                 ScoreManager.Instance.AddGems(-currentItem.price);
-                //TODO: Use the item
                 switch (currentItem.itemType)
                 {
                     case ItemConfig.ItemType.Star:

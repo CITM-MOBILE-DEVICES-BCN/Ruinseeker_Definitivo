@@ -75,15 +75,12 @@ namespace Ruinseeker {
             if (player == null) return;
             if (IsPlayerInRange() == true)
             {
-                // Check if the player is to the left or right of the enemy
                 if (player.position.x < transform.position.x)
                 {
-                    // Player is to the left; flip the sprite
                     spriteRenderer.flipX = true;
                 }
                 else
                 {
-                    // Player is to the right; reset the flip
                     spriteRenderer.flipX = false;
                 }
             }

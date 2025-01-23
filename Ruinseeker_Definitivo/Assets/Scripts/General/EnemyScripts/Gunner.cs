@@ -102,7 +102,7 @@ namespace Ruinseeker
 
         public override void Die()
         {
-            Debug.Log("Boomerang Guy defeated!");
+            //Debug.Log("Gunner defeated!");
 
             ResetBulletState();
 

@@ -33,20 +33,11 @@ namespace Ruinseeker
             {
                 starImages[i].enabled = false;
             }
-            // Subscribe to score events
             ScoreManager.Instance.OnGemsChanged += UpdateGemsDisplay;
-            //ScoreManager.Instance.OnScoreChanged += UpdateScoreDisplay;
-            //ScoreManager.Instance.OnStarsChanged += UpdateStarsDisplay;
-
-            // Initialize displays
-            //UpdateGemsDisplay(ScoreManager.Instance.CurrentGems);
-            //UpdateScoreDisplay(ScoreManager.Instance.TotalScore);
-            //UpdateStarsDisplay(ScoreManager.Instance.CalculateStars());
         }
 
         private void OnDestroy()
         {
-            // Unsubscribe from events to prevent memory leaks
             if (ScoreManager.Instance != null)
             {
                 ScoreManager.Instance.OnGemsChanged -= UpdateGemsDisplay;

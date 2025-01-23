@@ -25,15 +25,12 @@ namespace Ruinseeker
             transform.SetParent(player);
             transform.localPosition = Vector3.zero;
 
-            // Incrementar contador de Ratatulas activas
             if (activeRatatulas == 0)
             {
-                // Invertir controles solo si es la primera Ratatula
                 player.GetComponent<PlayerMovement>().InvertControls();
             }
             activeRatatulas++;
 
-            // Reiniciar el temporizador global de inversión
             StartCoroutine(InvertControlsTimer());
         }
 
@@ -42,14 +39,12 @@ namespace Ruinseeker
             Debug.Log("Attached Ratatula to player. Total active: " + activeRatatulas);
             yield return new WaitForSeconds(5f);
 
-            // Decrementar contador de Ratatulas activas
             activeRatatulas--;
 
             if (activeRatatulas <= 0)
             {
-                // Restaurar controles solo si no quedan Ratatulas activas
                 player.GetComponent<PlayerMovement>().InvertControls();
-                activeRatatulas = 0; // Garantizar que el contador no sea negativo
+                activeRatatulas = 0;
             }
 
             Die();

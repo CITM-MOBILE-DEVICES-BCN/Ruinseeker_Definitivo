@@ -31,21 +31,14 @@ namespace Ruinseeker
         {
             if (IsPlayerInRange())
             {
-              //  Debug.Log("Player detected within range!");
                 OnPlayerDetected();
-            }
-            else
-            {
-                //Debug.Log("Player not in range.");
             }
 
             if (!isTrackingPlayer)
             {
-                //Debug.Log("ShadowEnemy is not tracking player.");
                 return;
             }
 
-            //Debug.Log("ShadowEnemy is tracking the player.");
             RecordPlayerMovement();
             Patrol();
 
@@ -56,12 +49,10 @@ namespace Ruinseeker
             if (playerPositions.Count > 0)
             {
                 Vector3 nextPosition = playerPositions.Peek();
-              //  Debug.Log("Moving ShadowEnemy to position: " + nextPosition);
                 transform.position = Vector3.MoveTowards(transform.position, nextPosition, moveSpeed * Time.deltaTime);
 
                 if (Vector3.Distance(transform.position, nextPosition) < 0.05f)
                 {
-                   // Debug.Log("ShadowEnemy reached target position. Removing from queue.");
                     playerPositions.Dequeue();
                 }
             }
@@ -75,7 +66,6 @@ namespace Ruinseeker
         {
             if (!isTrackingPlayer)
             {
-               // Debug.Log("Player detected! Starting tracking.");
                 isTrackingPlayer = true;
             }
             else
@@ -87,24 +77,16 @@ namespace Ruinseeker
         private void RecordPlayerMovement()
         {
             elapsedTime += Time.deltaTime;
-          //  Debug.Log("Recording player movement. Elapsed time: " + elapsedTime);
 
             if (elapsedTime >= positionInterval)
             {
                 if (player != null)
                 {
-                    // Solo registrar posiciones si han pasado el tiempo adecuado
                     playerPositions.Enqueue(player.position);
-                    //Debug.Log("Recorded player position: " + player.position);
-
                     int maxQueueSize = Mathf.CeilToInt(movementDelay / positionInterval);
-                    //Debug.Log("Max queue size: " + maxQueueSize);
-
-                    // Asegurarse de que la cola no se haga demasiado grande
                     while (playerPositions.Count > maxQueueSize)
                     {
                         playerPositions.Dequeue();
-                      //  Debug.Log("Dequeuing old player position to maintain queue size.");
                     }
                 }
                 else
@@ -121,7 +103,7 @@ namespace Ruinseeker
         {
             if (collision.gameObject.CompareTag("Player"))
             {
-                Debug.Log("ShadowEnemy collided with player. Stopping tracking.");
+                //Debug.Log("ShadowEnemy collided with player. Stopping tracking.");
                 isTrackingPlayer = false;
                 collision.gameObject.GetComponent<PlayerMovement>().DeadFunction();
                 playerPositions.Clear();

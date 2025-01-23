@@ -10,7 +10,6 @@ namespace Ruinseeker
         public Slider loadingBar;
         private float loadingValue = 0;
 
-        // Update is called once per frame
         void Update()
         {
             int randomNum = Random.Range(0, 100);

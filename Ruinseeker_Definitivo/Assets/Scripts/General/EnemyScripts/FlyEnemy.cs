@@ -19,7 +19,6 @@ namespace Ruinseeker {
         {
             if (waypointA == null || waypointB == null)
             {
-                Debug.LogError("Waypoints no asignados!");
                 return;
             }
             waypointAWorldPos = waypointA.position;

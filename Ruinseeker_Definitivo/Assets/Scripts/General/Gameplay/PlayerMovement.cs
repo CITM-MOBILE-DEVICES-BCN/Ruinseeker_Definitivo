@@ -7,18 +7,18 @@ namespace Ruinseeker
 {
     public class PlayerMovement : MonoBehaviour
     {
-        public float jumpForce = 10f; // Fuerza del salto
-        public float moveSpeed = 2f; // Velocidad de movimiento
-        public float dashSpeed = 5f; // Velocidad de dash
-        public float wallJumpForce = 5f; // Fuerza del salto en la pared
+        public float jumpForce = 10f;
+        public float moveSpeed = 2f;
+        public float dashSpeed = 5f;
+        public float wallJumpForce = 5f; 
         public float wallJumpForceX = 5f;
-        public float wallSlideSpeed = 1f; // Velocidad de deslizamiento en la pared
+        public float wallSlideSpeed = 1f;
         private Rigidbody2D rb;
-        private Vector3 moveDirection = Vector3.right; // Dirección inicial de movimiento
+        private Vector3 moveDirection = Vector3.right;
         private Vector2 dashDirection = Vector2.zero;
         private Vector3 originalPosition;
         private Quaternion originalRotation;
-        private int groundContactCount = 0; //Por si toca varios suelos a la vez
+        private int groundContactCount = 0;
         public bool hasBoots = false;
         public bool hasStar = false;
         public int dashCnt = 1;
@@ -63,8 +63,6 @@ namespace Ruinseeker
         {
             
         }
-
-        // Start is called before the first frame update
         void Start()
         {
             rb = GetComponent<Rigidbody2D>();
@@ -78,18 +76,17 @@ namespace Ruinseeker
             }
         }
 
-        // Update is called once per frame
         void Update()
         {
             if(!isDashing)
             {
                 if (moveDirection.x < 0)
                 {
-                    renderer.flipX = true; // Girar el sprite horizontalmente
+                    renderer.flipX = true;
                 }
                 else
                 {
-                    renderer.flipX = false; // Girar el sprite horizontalmente
+                    renderer.flipX = false;
                 }
             }
            
@@ -169,12 +166,10 @@ namespace Ruinseeker
         void WallJump()
         {
             moveDirection.x = -moveDirection.x;
-    
-            // Aplicar fuerza en la dirección opuesta a la pared y hacia arriba
             rb.velocity = new Vector2(wallJumpForceX * (-moveDirection.x), jumpForce);
             
             hasJumped = true;
-            isTouchingWall = false; // Resetear el estado de contacto con la pared
+            isTouchingWall = false;
         }
 
         void Move()
@@ -188,7 +183,7 @@ namespace Ruinseeker
             Debug.Log("Dash: " + direction);
           
 
-            if (!isGrounded && !isTouchingWall && dashCnt>0) //dashCcnt>0 (1)
+            if (!isGrounded && !isTouchingWall && dashCnt>0)
             {
                 playeranimator.SetTrigger("Dash");
                 if (trailRenderer != null)
@@ -204,8 +199,7 @@ namespace Ruinseeker
                 velY = rb.velocity.y;
                 rb.velocity = Vector2.zero;
 
-                // Establecer moveDirection según el dash
-                if (dashDirection.x != 0) // Dash horizontal o diagonal
+                if (dashDirection.x != 0)
                 {
                     moveDirection = new Vector3(dashDirection.x, 0, 0);
                 }
@@ -222,23 +216,22 @@ namespace Ruinseeker
  
             transform.Translate(dashDirection * dashSpeed * Time.deltaTime);
             AudioManager.instance.PlayDashSound();
-            // Adjust sprite orientation based on dash direction
             if (dashDirection.x < 0)
             {
-                renderer.flipX = !invertedControls;  // Voltear sprite según controles invertidos
+                renderer.flipX = !invertedControls; 
             }
             else if (dashDirection.x > 0)
             {
-                renderer.flipX = invertedControls; // Ajustar para controles invertidos
+                renderer.flipX = invertedControls;
             }
 
-            float angle = Mathf.Atan2(dashDirection.y, dashDirection.x) * Mathf.Rad2Deg;  // Compute the angle
+            float angle = Mathf.Atan2(dashDirection.y, dashDirection.x) * Mathf.Rad2Deg;
             renderer.transform.localRotation = Quaternion.Euler(0, 0, angle);
         }
 
         public void InvertControls()
         {
-            invertedControls = !invertedControls; // Cambiar el estado de controles invertidos
+            invertedControls = !invertedControls;
             Debug.Log("Controles invertidos: " + invertedControls);
         }
 
@@ -261,7 +254,7 @@ namespace Ruinseeker
                         {
                             dashCnt = 1;
                         }
-                        rb.velocity = new Vector2(0, -wallSlideSpeed); // Deslizarse lentamente hacia abajo
+                        rb.velocity = new Vector2(0, -wallSlideSpeed);
 
                         AudioManager.instance.PlayJumpSound();
                     }
@@ -280,12 +273,11 @@ namespace Ruinseeker
                         moveDirection.x = -moveDirection.x;
                     }
                     isTouchingWall = false;
-                    // Restaurar el estado original del personaje
                     transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z);
                     transform.rotation = originalRotation;
                     rb.velocity = Vector3.zero;
-                    hasJumped = false; // Resetear el estado de salto
-                    hasDashed = false; // Resetear el estado de dash
+                    hasJumped = false;
+                    hasDashed = false;
                     if (hasBoots == true)
                     {
                         dashCnt = 2;
@@ -315,10 +307,8 @@ namespace Ruinseeker
         {
             if (collision.gameObject.CompareTag("Wall") && !isGrounded && isTouchingWall)
             {
-                rb.velocity = new Vector2(0, -wallSlideSpeed); // Deslizarse lentamente hacia abajo
+                rb.velocity = new Vector2(0, -wallSlideSpeed);
             }
-            
-            
         }
 
 
@@ -400,7 +390,6 @@ void OnCollisionExit2D(Collision2D collision)
             {
                 if (!isDashing && !dashInterrupted)
                 {
-                    // Asegurar que moveDirection respete los controles invertidos
                     if (dashDirection != Vector2.zero)
                     {
                         moveDirection = new Vector3(dashDirection.x, 0, 0);
