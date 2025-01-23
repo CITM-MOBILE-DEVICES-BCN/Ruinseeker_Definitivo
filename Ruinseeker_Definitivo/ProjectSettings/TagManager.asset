@@ -57,6 +57,9 @@ TagManager:
   - name: TP
     uniqueID: 3548244897
     locked: 0
+  - name: TilesDecor
+    uniqueID: 1781701187
+    locked: 0
   - name: TilesTerrain
     uniqueID: 2494238191
     locked: 0
