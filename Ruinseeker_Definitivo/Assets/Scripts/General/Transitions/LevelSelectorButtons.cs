@@ -47,7 +47,7 @@ namespace Ruinseeker
         {
             RestartArrowsScale();
             UpdateUI();
-            StartCoroutine(SpawnArrowsSequentially());
+            SpawnArrowsSequentially();
 
             ScoreManager.Instance.OnProgressUpdated += UpdateUI;
         }
@@ -74,34 +74,32 @@ namespace Ruinseeker
 
 
 
-        private IEnumerator SpawnArrowsSequentially()
+        private void SpawnArrowsSequentially()
         {
             Image[][] arrowLevels = { ArrowLevel1, ArrowLevel2, ArrowLevel3, ArrowLevel4 };
 
-            for (int i = 0; i < levelUIs.Length - 1; i++)
+            for (int i = 1; i < levelUIs.Length ; i++)
             {
-                var (stars, _) = ScoreManager.Instance.GetLevelProgress(levelUIs[i].levelName);
+                //var (stars, _) = ScoreManager.Instance.GetLevelProgress(levelUIs[i].levelName);
 
-                if (stars > 0)
-                {
-                    yield return StartCoroutine(AnimateArrows(arrowLevels[i]));
-                }
+                var stars = i < 4 ? 3 : 0;
+                AnimateArrows(arrowLevels[i - 1], stars == 0);
+                if (stars == 0) return;
             }
         }
 
-        private IEnumerator AnimateArrows(Image[] arrows)
+        private void AnimateArrows(Image[] arrows, bool isLast = true)
         {
-            foreach (Image arrow in arrows)
+            for (int i = 0; i < arrows.Length; i++)
             {
+                var arrow = arrows[i];
                 if (arrow != null)
                 {
+                    //TODO:^Pass isLast as a parameter
+
                     arrow.transform.localScale = Vector3.zero;
-
-                    Sequence arrowSequence = DOTween.Sequence();
-                    arrowSequence.Append(arrow.transform.DOScale(new Vector3(2, 3, 2), 0.5f))
-                                 .Append(arrow.transform.DOScale(Vector3.one, 0.2f));
-
-                    yield return arrowSequence.WaitForCompletion();
+                    DOTween.Kill(arrow.transform); // Detén cualquier animación previa en este transform
+                    arrow.transform.DOScale(Vector3.one, isLast ? 0.4f : 0).SetDelay(isLast ? 0.2f * i : 0).SetEase(Ease.OutBack, 10);
                 }
             }
         }
@@ -129,8 +127,8 @@ namespace Ruinseeker
             foreach (var levelUI in levelUIs)
             {
                 if (levelUI == null) continue;
-                
                 var (stars, maxStars) = ScoreManager.Instance.GetLevelProgress(levelUI.levelName);
+                stars =  3;
                 if (stars == 0)
                 {
                     levelUI.completedLevelImage.gameObject.SetActive(false);

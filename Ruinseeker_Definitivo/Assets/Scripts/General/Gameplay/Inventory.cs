@@ -29,7 +29,6 @@ namespace Ruinseeker
             }
             else 
             {
-                //TODO: Implement a complete inventory system (replace, not add, choose which one you want, etc)
                 Debug.Log("Full Inventory");
             }
         }
@@ -108,10 +107,11 @@ namespace Ruinseeker
         }
         public void UseItem()
         {
-            if(currentItem != null)
+            if(currentItem != null && ScoreManager.Instance.CurrentGems >= currentItem.price)
             {
+                ScoreManager.Instance.AddGems(-currentItem.price);
                 //TODO: Use the item
-                switch(currentItem.itemType)
+                switch (currentItem.itemType)
                 {
                     case ItemConfig.ItemType.Star:
                         Debug.Log("Star");

@@ -15,6 +15,7 @@ namespace Ruinseeker
         public void Init(UnityAction useItem)
         {
             itemButton.onClick.AddListener(useItem);
+            itemImage.gameObject.SetActive(false);
         }
 
         public void SetItem(ItemConfig item)

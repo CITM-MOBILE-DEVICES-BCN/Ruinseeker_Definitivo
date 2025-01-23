@@ -4946,40 +4946,40 @@ MonoBehaviour:
     starsText: {fileID: 0}
     starImages:
     - {fileID: 238826986}
-    - {fileID: 1032909776}
     - {fileID: 1663318020}
+    - {fileID: 1032909776}
     completedLevelImage: {fileID: 1806977527}
     levelButton: {fileID: 1794124984}
   - levelName: Level 2
     starsText: {fileID: 0}
     starImages:
     - {fileID: 1157816356}
-    - {fileID: 803778604}
     - {fileID: 1113466764}
+    - {fileID: 803778604}
     completedLevelImage: {fileID: 2124083543}
     levelButton: {fileID: 248024431}
   - levelName: Level 3
     starsText: {fileID: 0}
     starImages:
     - {fileID: 1993603847}
-    - {fileID: 775996436}
     - {fileID: 2005261568}
+    - {fileID: 775996436}
     completedLevelImage: {fileID: 1466035033}
     levelButton: {fileID: 2037331494}
   - levelName: Level 4
     starsText: {fileID: 0}
     starImages:
     - {fileID: 1164482602}
-    - {fileID: 708364620}
     - {fileID: 586343329}
+    - {fileID: 708364620}
     completedLevelImage: {fileID: 1120676453}
     levelButton: {fileID: 350179537}
   - levelName: Level 5
     starsText: {fileID: 0}
     starImages:
     - {fileID: 876663786}
-    - {fileID: 1742801888}
     - {fileID: 48317561}
+    - {fileID: 1742801888}
     completedLevelImage: {fileID: 273097390}
     levelButton: {fileID: 1873377244}
   ArrowLevel1:
@@ -4991,18 +4991,23 @@ MonoBehaviour:
   - {fileID: 1493068990}
   - {fileID: 719892682}
   - {fileID: 1011216223}
-  - {fileID: 1429382609}
   - {fileID: 399553666}
+  - {fileID: 1429382609}
   - {fileID: 1252807940}
   - {fileID: 133019962}
   ArrowLevel3:
-  - {fileID: 2107571005}
   - {fileID: 2024879009}
+  - {fileID: 2107571005}
   - {fileID: 1014656673}
   ArrowLevel4:
   - {fileID: 1856737434}
   - {fileID: 122247337}
-  - {fileID: 1833618630}
+  - {fileID: 408715411}
+  - {fileID: 1105927583}
+  - {fileID: 837482260}
+  - {fileID: 1130197443}
+  - {fileID: 1487944668}
+  - {fileID: 869823809}
   backButton: {fileID: 1476884727}
 --- !u!1 &1566350834
 GameObject:
@@ -5780,81 +5785,6 @@ CanvasRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1806977525}
-  m_CullTransparentMesh: 1
---- !u!1 &1833618628
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1833618629}
-  - component: {fileID: 1833618631}
-  - component: {fileID: 1833618630}
-  m_Layer: 5
-  m_Name: Image (17)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &1833618629
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1833618628}
-  m_LocalRotation: {x: -0, y: -0, z: -0.709208, w: -0.7049993}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 2117111894}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 450.341}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -17.9, y: 208.4}
-  m_SizeDelta: {x: 65.033, y: 65.033}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1833618630
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1833618628}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Sprite: {fileID: -524260145, guid: ff02dbc259153cc4895d4e34f3eb1b2d, type: 3}
-  m_Type: 0
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
---- !u!222 &1833618631
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1833618628}
   m_CullTransparentMesh: 1
 --- !u!1 &1856737432
 GameObject:
@@ -7179,7 +7109,6 @@ RectTransform:
   - {fileID: 1130197442}
   - {fileID: 1487944667}
   - {fileID: 869823808}
-  - {fileID: 1833618629}
   m_Father: {fileID: 1340466546}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}

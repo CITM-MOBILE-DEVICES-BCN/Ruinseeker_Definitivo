@@ -81,7 +81,10 @@ namespace Ruinseeker
         public void AddGems(int amount)
         {
             currentGems += amount;
+            totalScore = CalculateStars();
             OnGemsChanged?.Invoke(currentGems);
+            
+            OnStarsChanged?.Invoke(totalScore);
         }
 
         public bool TrySpendGems(int amount)
@@ -117,7 +120,7 @@ namespace Ruinseeker
             if (hasLevelBeenCompleted) return;
 
             string currentLevel = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
-            int stars = CalculateStars();
+            int stars = Mathf.Max(1, CalculateStars()); // Ensure at least 1 star
 
             // Update level progress
             var levelData = saveData.levelProgress.FirstOrDefault(l => l.levelName == currentLevel);

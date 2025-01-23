@@ -24,7 +24,6 @@ namespace Ruinseeker
             {
                 //if (ScoreManager.Instance.CurrentGems >= itemConfig.price)
                 //{
-                    ScoreManager.Instance.AddGems(-itemConfig.price);
                     collision.GetComponent<Inventory>().AddItemToInventory(itemConfig);
                     OnCollect();
                 //}

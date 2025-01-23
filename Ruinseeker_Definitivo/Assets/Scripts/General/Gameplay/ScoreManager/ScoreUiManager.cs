@@ -29,15 +29,19 @@ namespace Ruinseeker
 
         private void Start()
         {
+            for (int i = 0; i < starImages.Length; i++)
+            {
+                starImages[i].enabled = false;
+            }
             // Subscribe to score events
             ScoreManager.Instance.OnGemsChanged += UpdateGemsDisplay;
-            ScoreManager.Instance.OnScoreChanged += UpdateScoreDisplay;
-            ScoreManager.Instance.OnStarsChanged += UpdateStarsDisplay;
+            //ScoreManager.Instance.OnScoreChanged += UpdateScoreDisplay;
+            //ScoreManager.Instance.OnStarsChanged += UpdateStarsDisplay;
 
             // Initialize displays
-            UpdateGemsDisplay(ScoreManager.Instance.CurrentGems);
-            UpdateScoreDisplay(ScoreManager.Instance.TotalScore);
-            UpdateStarsDisplay(ScoreManager.Instance.CalculateStars());
+            //UpdateGemsDisplay(ScoreManager.Instance.CurrentGems);
+            //UpdateScoreDisplay(ScoreManager.Instance.TotalScore);
+            //UpdateStarsDisplay(ScoreManager.Instance.CalculateStars());
         }
 
         private void OnDestroy()
@@ -57,6 +61,8 @@ namespace Ruinseeker
             {
                 gemsText.text = $"{gems}";
             }
+            UpdateStarsDisplay(ScoreManager.Instance.CalculateStars());
+            UpdateScoreDisplay(ScoreManager.Instance.CalculateStars());
         }
 
         public void UpdateScoreDisplay(int score)
@@ -71,9 +77,9 @@ namespace Ruinseeker
         {
             if (starImages != null)
             {
-                for (int i = 0; i < starImages.Length; i++)
+                for (int i = 0; i < stars; i++)
                 {
-                    starImages[i].enabled = i < stars;
+                    starImages[i].gameObject.SetActive(true);
                 }
             }
         }
