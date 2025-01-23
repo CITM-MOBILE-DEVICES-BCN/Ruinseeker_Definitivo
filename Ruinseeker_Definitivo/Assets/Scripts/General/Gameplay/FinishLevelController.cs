@@ -12,6 +12,7 @@ namespace Ruinseeker
             {
                 ScoreManager.Instance.FinishLevel();
                 GameManager.Instance.LoadSceneRequest("LevelSelectorScene");
+                AudioManager.instance.PlayMenuMusic();
             }
         }
     }

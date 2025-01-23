@@ -37,6 +37,7 @@ namespace Ruinseeker
             loadingValue = 1;
             loadingBar.value = loadingValue;
             GameManager.Instance.LoadSceneRequest("LobbyScene");
+            AudioManager.instance.PlayMenuMusic();
         }
     }
 }

@@ -20,6 +20,7 @@ namespace Ruinseeker
                 GameManager.Instance.DestroyScreenRequest("PauseCanvas");
                 Time.timeScale = 1;
                 GameManager.Instance.LoadSceneRequest("LevelSelectorScene");
+                AudioManager.instance.PlayMenuMusic();
             }
             );
             

@@ -39,7 +39,8 @@ namespace Ruinseeker
         {
 
             backButton.onClick.AddListener(() => GameManager.Instance.LoadSceneRequest("LobbyScene"));
-           
+            AudioManager.instance.PlayMenuMusic();
+
         }
 
         private void Start()
@@ -137,7 +138,9 @@ namespace Ruinseeker
                     {
                         levelUI.levelButton.onClick.AddListener(() => GameManager.Instance.LoadSceneRequest(levelUI.levelName));
                         AudioManager.instance.PlayButtonSound();
-                        
+                        AudioManager.instance.PlayInGameMusic();
+
+
                         wasPreviousLevelCompleted = false;
                     }
                     else
@@ -150,6 +153,7 @@ namespace Ruinseeker
                 {
                     levelUI.levelButton.onClick.AddListener(() => GameManager.Instance.LoadSceneRequest(levelUI.levelName));
                     AudioManager.instance.PlayButtonSound();
+                    AudioManager.instance.PlayInGameMusic();
                     
                 }
 
