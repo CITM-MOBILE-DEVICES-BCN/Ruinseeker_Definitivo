@@ -18,6 +18,7 @@ namespace Ruinseeker
         private Vector2 dashDirection = Vector2.zero;
         private Vector3 originalPosition;
         private Quaternion originalRotation;
+        private int groundContactCount = 0; //Por si toca varios suelos a la vez
         public bool hasBoots = false;
         public bool hasStar = false;
         public int dashCnt = 1;
@@ -80,14 +81,18 @@ namespace Ruinseeker
         // Update is called once per frame
         void Update()
         {
-            if (moveDirection.x < 0)
+            if(!isDashing)
             {
-                renderer.flipX = true; // Girar el sprite horizontalmente
+                if (moveDirection.x < 0)
+                {
+                    renderer.flipX = true; // Girar el sprite horizontalmente
+                }
+                else
+                {
+                    renderer.flipX = false; // Girar el sprite horizontalmente
+                }
             }
-            else 
-            {
-                renderer.flipX = false; // Girar el sprite horizontalmente
-            }
+           
             if (isGrounded && !isTouchingWall)
             {
                 playeranimator.SetBool("Jump", false);
@@ -192,48 +197,19 @@ namespace Ruinseeker
                 }
                 StartCoroutine(DisableTrailAfterDash());
 
-                dashDirection = invertedControls ? -direction : direction; isDashing = true; 
+                dashDirection = invertedControls ? -direction : direction;
+                isDashing = true;
                 dashCnt--;
                 velX = rb.velocity.x;
                 velY = rb.velocity.y;
                 rb.velocity = Vector2.zero;
-                if(direction.x != 0)
-                {
-                    moveDirection.x = direction.x;
-                }
 
-                if (direction.x == 1 && direction.y == 0)
+                // Establecer moveDirection según el dash
+                if (dashDirection.x != 0) // Dash horizontal o diagonal
                 {
-                    dashDir = DashDirection.Right;
+                    moveDirection = new Vector3(dashDirection.x, 0, 0);
                 }
-                else if (direction.x == -1 && direction.y == 0)
-                {
-                    dashDir = DashDirection.Left;
-                }
-                else if (direction.x == 0 && direction.y == 1)
-                {
-                    dashDir = DashDirection.Up;
-                }
-                else if (direction.x == 0 && direction.y == -1)
-                {
-                    dashDir = DashDirection.Down;
-                }
-                else if (direction.x == 1 && direction.y == 1)
-                {
-                    dashDir = DashDirection.UpRight;
-                }
-                else if (direction.x == -1 && direction.y == 1)
-                {
-                    dashDir = DashDirection.UpLeft;
-                }
-                else if (direction.x == 1 && direction.y == -1)
-                {
-                    dashDir = DashDirection.DownRight;
-                }
-                else if (direction.x == -1 && direction.y == -1)
-                {
-                    dashDir = DashDirection.DownLeft;
-                }
+               
 
                 StartCoroutine(WaitTimeForDash(0.2f));
             }
@@ -249,11 +225,11 @@ namespace Ruinseeker
             // Adjust sprite orientation based on dash direction
             if (dashDirection.x < 0)
             {
-                renderer.flipX = true;  // Flip sprite for left dashes
+                renderer.flipX = !invertedControls;  // Voltear sprite según controles invertidos
             }
             else if (dashDirection.x > 0)
             {
-                renderer.flipX = false; // Default orientation for right dashes
+                renderer.flipX = invertedControls; // Ajustar para controles invertidos
             }
 
             float angle = Mathf.Atan2(dashDirection.y, dashDirection.x) * Mathf.Rad2Deg;  // Compute the angle
@@ -270,8 +246,6 @@ namespace Ruinseeker
         {
             if (collision.gameObject.CompareTag("Wall") || collision.gameObject.CompareTag("Ground"))
             {
-                
-
                 if (collision.gameObject.CompareTag("Wall"))
                 {
                     if (!isGrounded)
@@ -299,6 +273,7 @@ namespace Ruinseeker
 
                 if (collision.gameObject.CompareTag("Ground"))
                 {
+                    groundContactCount++;
                     isGrounded = true;
                     if (isTouchingWall)
                     {
@@ -323,7 +298,6 @@ namespace Ruinseeker
                 InterruptDash();
             }
         }
-
         void InterruptDash()
         {
             if (isDashing)
@@ -348,26 +322,27 @@ namespace Ruinseeker
         }
 
 
-        void OnCollisionExit2D(Collision2D collision)
+void OnCollisionExit2D(Collision2D collision)
+{
+    if (collision.gameObject.CompareTag("Wall"))
+    {
+        isTouchingWall = false;
+    }
+
+    if (collision.gameObject.CompareTag("Ground"))
+    {
+        groundContactCount--;
+        if (groundContactCount <= 0)
         {
-            if (collision.gameObject.CompareTag("Wall"))
-            {
-                isTouchingWall = false;
-            }
-            
-            if (collision.gameObject.CompareTag("Ground"))
-            {
-                isGrounded = false;
-            }
-
-            if (collision.gameObject.CompareTag("Dead"))
-            {
-                CheckDeath();
-
-            }
-      
+            isGrounded = false;
         }
-        private void OnTriggerEnter2D(Collider2D collision)
+    }
+
+    if (collision.gameObject.CompareTag("Dead"))
+    {
+        CheckDeath();
+    }
+}        private void OnTriggerEnter2D(Collider2D collision)
         {
             if (!canTP) return;
 
@@ -421,36 +396,23 @@ namespace Ruinseeker
         {
             yield return new WaitForSeconds(seconds);
             
-            if(!isDashing && !dashInterrupted)
+            if(dashDirection.x != 0)
             {
-                switch (dashDir)
+                if (!isDashing && !dashInterrupted)
                 {
-                    case DashDirection.Left:
-                        rb.velocity = new Vector2(velX, 0);
-                        break;
-                    case DashDirection.Right:
-                        rb.velocity = new Vector2(velX, 0);
-                        break;
-                    case DashDirection.Up:
-                        rb.velocity = new Vector2(velX, 25);
-                        break;
-                    case DashDirection.Down:
-                        rb.velocity = new Vector2(velX, 25);
-                        break;
-                    case DashDirection.UpRight:
-                        rb.velocity = new Vector2(velX, 25);
-                        break;
-                    case DashDirection.UpLeft:
-                        rb.velocity = new Vector2(velX, 25);
-                        break;
-                    case DashDirection.DownRight:
-                        rb.velocity = new Vector2(velX, 25);
-                        break;
-                    case DashDirection.DownLeft:
-                        rb.velocity = new Vector2(velX, 25);
-                        break;
+                    // Asegurar que moveDirection respete los controles invertidos
+                    if (dashDirection != Vector2.zero)
+                    {
+                        moveDirection = new Vector3(dashDirection.x, 0, 0);
+
+                        if (invertedControls)
+                        {
+                            moveDirection.x = -moveDirection.x;
+                        }
+                    }
                 }
             }
+            
        
             isDashing = false;
             dashInterrupted = false;

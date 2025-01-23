@@ -35,7 +35,7 @@ namespace Ruinseeker
 
         [Header("Score Settings")]
         [SerializeField] private int gemsPerStar = 5;
-        [SerializeField] private int pointsPerStar = 10000;
+        [SerializeField] private int pointsPerStar = 100;
 
         private SaveSystem saveSystem;
         private SaveData saveData;
